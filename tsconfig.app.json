@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    /* added while installing shadcn */
+    /* added manually while installing shadcn */
     "baseUrl": ".",
     "paths": {
       "@/*": [
