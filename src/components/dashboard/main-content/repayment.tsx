@@ -28,7 +28,7 @@ const Repayment: React.FC = () => {
             <TableCell className="text-2xl font-semibold">
               June 4, 2020
             </TableCell>
-            <TableCell className="text-3xl text-red-500 font-semibold">
+            <TableCell className="text-3xl text-red-500 font-medium">
               ₦ 10,000.00
             </TableCell>
             <TableCell className="">

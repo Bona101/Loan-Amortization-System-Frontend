@@ -14,9 +14,10 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SomethingImport } from './routes/something'
-import { Route as DashboardImport } from './routes/dashboard'
-import { Route as ExampleFolder1IndexImport } from './routes/example-folder-1/index'
-import { Route as ExampleFolder1Child1Import } from './routes/example-folder-1/child1'
+import { Route as SidebarImport } from './routes/sidebar'
+import { Route as SidebarIndexImport } from './routes/sidebar/index'
+import { Route as SidebarPaymentsImport } from './routes/sidebar/payments'
+import { Route as SidebarLoanRequestImport } from './routes/sidebar/loan-request'
 
 // Create Virtual Routes
 
@@ -37,9 +38,9 @@ const SomethingRoute = SomethingImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardRoute = DashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const SidebarRoute = SidebarImport.update({
+  id: '/sidebar',
+  path: '/sidebar',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -49,16 +50,22 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const ExampleFolder1IndexRoute = ExampleFolder1IndexImport.update({
-  id: '/example-folder-1/',
-  path: '/example-folder-1/',
-  getParentRoute: () => rootRoute,
+const SidebarIndexRoute = SidebarIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SidebarRoute,
 } as any)
 
-const ExampleFolder1Child1Route = ExampleFolder1Child1Import.update({
-  id: '/example-folder-1/child1',
-  path: '/example-folder-1/child1',
-  getParentRoute: () => rootRoute,
+const SidebarPaymentsRoute = SidebarPaymentsImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => SidebarRoute,
+} as any)
+
+const SidebarLoanRequestRoute = SidebarLoanRequestImport.update({
+  id: '/loan-request',
+  path: '/loan-request',
+  getParentRoute: () => SidebarRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -72,11 +79,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardImport
+    '/sidebar': {
+      id: '/sidebar'
+      path: '/sidebar'
+      fullPath: '/sidebar'
+      preLoaderRoute: typeof SidebarImport
       parentRoute: typeof rootRoute
     }
     '/something': {
@@ -93,97 +100,119 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/example-folder-1/child1': {
-      id: '/example-folder-1/child1'
-      path: '/example-folder-1/child1'
-      fullPath: '/example-folder-1/child1'
-      preLoaderRoute: typeof ExampleFolder1Child1Import
-      parentRoute: typeof rootRoute
+    '/sidebar/loan-request': {
+      id: '/sidebar/loan-request'
+      path: '/loan-request'
+      fullPath: '/sidebar/loan-request'
+      preLoaderRoute: typeof SidebarLoanRequestImport
+      parentRoute: typeof SidebarImport
     }
-    '/example-folder-1/': {
-      id: '/example-folder-1/'
-      path: '/example-folder-1'
-      fullPath: '/example-folder-1'
-      preLoaderRoute: typeof ExampleFolder1IndexImport
-      parentRoute: typeof rootRoute
+    '/sidebar/payments': {
+      id: '/sidebar/payments'
+      path: '/payments'
+      fullPath: '/sidebar/payments'
+      preLoaderRoute: typeof SidebarPaymentsImport
+      parentRoute: typeof SidebarImport
+    }
+    '/sidebar/': {
+      id: '/sidebar/'
+      path: '/'
+      fullPath: '/sidebar/'
+      preLoaderRoute: typeof SidebarIndexImport
+      parentRoute: typeof SidebarImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface SidebarRouteChildren {
+  SidebarLoanRequestRoute: typeof SidebarLoanRequestRoute
+  SidebarPaymentsRoute: typeof SidebarPaymentsRoute
+  SidebarIndexRoute: typeof SidebarIndexRoute
+}
+
+const SidebarRouteChildren: SidebarRouteChildren = {
+  SidebarLoanRequestRoute: SidebarLoanRequestRoute,
+  SidebarPaymentsRoute: SidebarPaymentsRoute,
+  SidebarIndexRoute: SidebarIndexRoute,
+}
+
+const SidebarRouteWithChildren =
+  SidebarRoute._addFileChildren(SidebarRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/dashboard': typeof DashboardRoute
+  '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
-  '/example-folder-1/child1': typeof ExampleFolder1Child1Route
-  '/example-folder-1': typeof ExampleFolder1IndexRoute
+  '/sidebar/loan-request': typeof SidebarLoanRequestRoute
+  '/sidebar/payments': typeof SidebarPaymentsRoute
+  '/sidebar/': typeof SidebarIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/dashboard': typeof DashboardRoute
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
-  '/example-folder-1/child1': typeof ExampleFolder1Child1Route
-  '/example-folder-1': typeof ExampleFolder1IndexRoute
+  '/sidebar/loan-request': typeof SidebarLoanRequestRoute
+  '/sidebar/payments': typeof SidebarPaymentsRoute
+  '/sidebar': typeof SidebarIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/dashboard': typeof DashboardRoute
+  '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
-  '/example-folder-1/child1': typeof ExampleFolder1Child1Route
-  '/example-folder-1/': typeof ExampleFolder1IndexRoute
+  '/sidebar/loan-request': typeof SidebarLoanRequestRoute
+  '/sidebar/payments': typeof SidebarPaymentsRoute
+  '/sidebar/': typeof SidebarIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
+    | '/sidebar'
     | '/something'
     | '/about'
-    | '/example-folder-1/child1'
-    | '/example-folder-1'
+    | '/sidebar/loan-request'
+    | '/sidebar/payments'
+    | '/sidebar/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
     | '/something'
     | '/about'
-    | '/example-folder-1/child1'
-    | '/example-folder-1'
+    | '/sidebar/loan-request'
+    | '/sidebar/payments'
+    | '/sidebar'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
+    | '/sidebar'
     | '/something'
     | '/about'
-    | '/example-folder-1/child1'
-    | '/example-folder-1/'
+    | '/sidebar/loan-request'
+    | '/sidebar/payments'
+    | '/sidebar/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  DashboardRoute: typeof DashboardRoute
+  SidebarRoute: typeof SidebarRouteWithChildren
   SomethingRoute: typeof SomethingRoute
   AboutLazyRoute: typeof AboutLazyRoute
-  ExampleFolder1Child1Route: typeof ExampleFolder1Child1Route
-  ExampleFolder1IndexRoute: typeof ExampleFolder1IndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  DashboardRoute: DashboardRoute,
+  SidebarRoute: SidebarRouteWithChildren,
   SomethingRoute: SomethingRoute,
   AboutLazyRoute: AboutLazyRoute,
-  ExampleFolder1Child1Route: ExampleFolder1Child1Route,
-  ExampleFolder1IndexRoute: ExampleFolder1IndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -197,18 +226,21 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/dashboard",
+        "/sidebar",
         "/something",
-        "/about",
-        "/example-folder-1/child1",
-        "/example-folder-1/"
+        "/about"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/dashboard": {
-      "filePath": "dashboard.tsx"
+    "/sidebar": {
+      "filePath": "sidebar.tsx",
+      "children": [
+        "/sidebar/loan-request",
+        "/sidebar/payments",
+        "/sidebar/"
+      ]
     },
     "/something": {
       "filePath": "something.tsx"
@@ -216,11 +248,17 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.lazy.tsx"
     },
-    "/example-folder-1/child1": {
-      "filePath": "example-folder-1/child1.tsx"
+    "/sidebar/loan-request": {
+      "filePath": "sidebar/loan-request.tsx",
+      "parent": "/sidebar"
     },
-    "/example-folder-1/": {
-      "filePath": "example-folder-1/index.tsx"
+    "/sidebar/payments": {
+      "filePath": "sidebar/payments.tsx",
+      "parent": "/sidebar"
+    },
+    "/sidebar/": {
+      "filePath": "sidebar/index.tsx",
+      "parent": "/sidebar"
     }
   }
 }
