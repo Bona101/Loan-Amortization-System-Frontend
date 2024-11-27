@@ -7,6 +7,10 @@ export default {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			Lato: ['Lato', 'sans-serif'],
+			Montserrat: ['Montserrat', 'sans-serif'],
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
