@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { WorldMap } from "@/assets";
 
 export const CoreValues: React.FC = () => {
     const cards = [
@@ -23,8 +24,8 @@ export const CoreValues: React.FC = () => {
       },
     ];
   return (
-    <div>
-      <div className="flex flex-col justify-center h-[500px] bg-[#2D2D2D] p-[50px]">
+    <div className="relative h-[700px] flex flex-col justify-center">
+      <div className="flex flex-col justify-center h-[700px] p-[50px]">
         <h1 className="font-medium text-[40px] pb-4">Our Core Values</h1>
         <p className="w-[700px] pb-5">
           With our user-friendly interface, you can initiate a transfer in just
@@ -46,6 +47,11 @@ export const CoreValues: React.FC = () => {
           ))}
         </div>
       </div>
+      <img
+        className="w-full h-full absolute top-0 z-[-1]"
+        src={WorldMap}
+        alt="a map of the continents"
+      />
     </div>
   );
 };

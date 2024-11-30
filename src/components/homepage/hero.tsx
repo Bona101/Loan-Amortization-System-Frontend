@@ -1,10 +1,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Coins } from "@/assets";
 
 export const Hero: React.FC = () => {
   return (
-    <div>
-      <div className="flex flex-col justify-center h-[500px] bg-red-500 p-[50px]">
+    <div className="relative h-[700px] flex flex-col justify-center">
+      <div className="flex flex-col justify-center p-[50px]">
         <h1 className="font-bold text-[48px] pb-4">
           Simple, Transparent, and Efficient
         </h1>
@@ -25,6 +26,11 @@ export const Hero: React.FC = () => {
           </Button>
         </div>
       </div>
+      <img
+        className="w-full h-full absolute top-0 z-[-1]"
+        src={Coins}
+        alt="a glass bottle and some stacks of coins"
+      />
     </div>
   );
 };
