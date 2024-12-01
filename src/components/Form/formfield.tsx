@@ -9,7 +9,7 @@ interface FormFieldProps extends React.ComponentPropsWithoutRef<"input"> {
 const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
   ({ label, id, className, ...props }, ref) => {
     return (
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-2">
         <label
           htmlFor={id}
           className="font-medium text-muted-foreground"

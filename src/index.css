@@ -23,3 +23,7 @@
 body {
     @apply font-Lato;
 }
+
+.dashed-separator {
+    border-style: dashed; /* adjust the style as needed */
+}
