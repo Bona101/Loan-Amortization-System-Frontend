@@ -27,7 +27,6 @@ import { Route as SidebarEditprofileImport } from './routes/sidebar/editprofile'
 // Create Virtual Routes
 
 const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
@@ -48,12 +47,6 @@ const SidebarRoute = SidebarImport.update({
   path: '/sidebar',
   getParentRoute: () => rootRoute,
 } as any)
-
-const IndexLazyRoute = IndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
 const WebsiteIndexRoute = WebsiteIndexImport.update({
   id: '/website/',
@@ -107,13 +100,6 @@ const SidebarEditprofileRoute = SidebarEditprofileImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/sidebar': {
       id: '/sidebar'
       path: '/sidebar'
@@ -214,7 +200,6 @@ const SidebarRouteWithChildren =
   SidebarRoute._addFileChildren(SidebarRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
@@ -229,7 +214,6 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
@@ -244,7 +228,6 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
@@ -261,7 +244,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/sidebar'
     | '/something'
     | '/about'
@@ -275,7 +257,6 @@ export interface FileRouteTypes {
     | '/website'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/something'
     | '/about'
     | '/sidebar/editprofile'
@@ -288,7 +269,6 @@ export interface FileRouteTypes {
     | '/website'
   id:
     | '__root__'
-    | '/'
     | '/sidebar'
     | '/something'
     | '/about'
@@ -304,7 +284,6 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
   SidebarRoute: typeof SidebarRouteWithChildren
   SomethingRoute: typeof SomethingRoute
   AboutLazyRoute: typeof AboutLazyRoute
@@ -315,7 +294,6 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
   SidebarRoute: SidebarRouteWithChildren,
   SomethingRoute: SomethingRoute,
   AboutLazyRoute: AboutLazyRoute,
@@ -335,7 +313,6 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/sidebar",
         "/something",
         "/about",
@@ -344,9 +321,6 @@ export const routeTree = rootRoute
         "/website/signup",
         "/website/"
       ]
-    },
-    "/": {
-      "filePath": "index.lazy.tsx"
     },
     "/sidebar": {
       "filePath": "sidebar.tsx",
