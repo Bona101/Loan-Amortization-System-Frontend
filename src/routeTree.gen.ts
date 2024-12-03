@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SomethingImport } from './routes/something'
 import { Route as SidebarImport } from './routes/sidebar'
 import { Route as WebsiteIndexImport } from './routes/website/index'
+import { Route as IndexImport } from './routes/index'
 import { Route as SidebarIndexImport } from './routes/sidebar/index'
 import { Route as WebsiteSignupImport } from './routes/website/signup'
 import { Route as WebsiteRegisterImport } from './routes/website/register'
@@ -26,7 +27,6 @@ import { Route as SidebarLoanRequestImport } from './routes/sidebar/loan-request
 // Create Virtual Routes
 
 const AboutLazyImport = createFileRoute('/about')()
-const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
@@ -48,11 +48,11 @@ const SidebarRoute = SidebarImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
 const WebsiteIndexRoute = WebsiteIndexImport.update({
   id: '/website/',
@@ -104,7 +104,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/sidebar': {
@@ -198,7 +198,7 @@ const SidebarRouteWithChildren =
   SidebarRoute._addFileChildren(SidebarRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
@@ -212,7 +212,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
@@ -226,7 +226,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
@@ -282,7 +282,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
   SidebarRoute: typeof SidebarRouteWithChildren
   SomethingRoute: typeof SomethingRoute
   AboutLazyRoute: typeof AboutLazyRoute
@@ -293,7 +293,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
   SidebarRoute: SidebarRouteWithChildren,
   SomethingRoute: SomethingRoute,
   AboutLazyRoute: AboutLazyRoute,
@@ -324,7 +324,7 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/sidebar": {
       "filePath": "sidebar.tsx",
