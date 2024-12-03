@@ -22,6 +22,7 @@ import { Route as WebsiteRegisterImport } from './routes/website/register'
 import { Route as WebsiteLoginImport } from './routes/website/login'
 import { Route as SidebarPaymentsImport } from './routes/sidebar/payments'
 import { Route as SidebarLoanRequestImport } from './routes/sidebar/loan-request'
+import { Route as SidebarEditprofileImport } from './routes/sidebar/editprofile'
 
 // Create Virtual Routes
 
@@ -96,6 +97,12 @@ const SidebarLoanRequestRoute = SidebarLoanRequestImport.update({
   getParentRoute: () => SidebarRoute,
 } as any)
 
+const SidebarEditprofileRoute = SidebarEditprofileImport.update({
+  id: '/editprofile',
+  path: '/editprofile',
+  getParentRoute: () => SidebarRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -127,6 +134,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/about'
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/sidebar/editprofile': {
+      id: '/sidebar/editprofile'
+      path: '/editprofile'
+      fullPath: '/sidebar/editprofile'
+      preLoaderRoute: typeof SidebarEditprofileImport
+      parentRoute: typeof SidebarImport
     }
     '/sidebar/loan-request': {
       id: '/sidebar/loan-request'
@@ -183,12 +197,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface SidebarRouteChildren {
+  SidebarEditprofileRoute: typeof SidebarEditprofileRoute
   SidebarLoanRequestRoute: typeof SidebarLoanRequestRoute
   SidebarPaymentsRoute: typeof SidebarPaymentsRoute
   SidebarIndexRoute: typeof SidebarIndexRoute
 }
 
 const SidebarRouteChildren: SidebarRouteChildren = {
+  SidebarEditprofileRoute: SidebarEditprofileRoute,
   SidebarLoanRequestRoute: SidebarLoanRequestRoute,
   SidebarPaymentsRoute: SidebarPaymentsRoute,
   SidebarIndexRoute: SidebarIndexRoute,
@@ -202,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
+  '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/website/login': typeof WebsiteLoginRoute
@@ -215,6 +232,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
+  '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/website/login': typeof WebsiteLoginRoute
@@ -230,6 +248,7 @@ export interface FileRoutesById {
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
+  '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/website/login': typeof WebsiteLoginRoute
@@ -246,6 +265,7 @@ export interface FileRouteTypes {
     | '/sidebar'
     | '/something'
     | '/about'
+    | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/website/login'
@@ -258,6 +278,7 @@ export interface FileRouteTypes {
     | '/'
     | '/something'
     | '/about'
+    | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/website/login'
@@ -271,6 +292,7 @@ export interface FileRouteTypes {
     | '/sidebar'
     | '/something'
     | '/about'
+    | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/website/login'
@@ -329,6 +351,7 @@ export const routeTree = rootRoute
     "/sidebar": {
       "filePath": "sidebar.tsx",
       "children": [
+        "/sidebar/editprofile",
         "/sidebar/loan-request",
         "/sidebar/payments",
         "/sidebar/"
@@ -339,6 +362,10 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.lazy.tsx"
+    },
+    "/sidebar/editprofile": {
+      "filePath": "sidebar/editprofile.tsx",
+      "parent": "/sidebar"
     },
     "/sidebar/loan-request": {
       "filePath": "sidebar/loan-request.tsx",
