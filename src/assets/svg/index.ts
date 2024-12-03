@@ -4,3 +4,4 @@ import LoanRequest from "./Vector-9.svg";
 import Logo from "./logo.svg";
 
 export { DashboardIcon, PaymentIcon, LoanRequest, Logo };
+
