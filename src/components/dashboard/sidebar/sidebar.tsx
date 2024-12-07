@@ -1,5 +1,5 @@
 import React from "react";
-import { DashboardIcon, PaymentIcon, LoanRequest } from "@/assets/svg";
+import { DashboardIcon, PaymentIcon, LoanRequest, ProfileIcon } from "@/assets/svg";
 import { useNavigate } from "@tanstack/react-router";
 
 
@@ -8,17 +8,22 @@ const Sidebar: React.FC = () => {
     {
       icon: DashboardIcon,
       title: "Dashboard",
-      route: '/sidebar'
+      route: "/sidebar",
     },
     {
       icon: PaymentIcon,
       title: "Request a Loan",
-      route: '/sidebar/loan-request'
+      route: "/sidebar/loan-request",
     },
     {
       icon: LoanRequest,
       title: "Payments",
-      route: '/sidebar/payments'
+      route: "/sidebar/payments",
+    },
+    {
+      icon: ProfileIcon,
+      title: "Edit Profile",
+      route: "/sidebar/editprofile",
     },
   ];
 
