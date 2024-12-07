@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Coins } from "@/assets";
+import { Link } from "@tanstack/react-router";
 
 export const Hero: React.FC = () => {
   return (
@@ -18,12 +19,16 @@ export const Hero: React.FC = () => {
           control and grow your business with ease.
         </p>
         <div className="flex gap-3 pt-5 mt-3">
-          <Button className="bg-[#FFFFFF] rounded-[10px] text-[#343434] border border-[#FFFFFF] hover:text-[#FFFFFF] hover:bg-transparent">
-            Login
-          </Button>
-          <Button className="bg-transparent text-[#FFFFFF] border border-[#FFFFFFF] rounded-[10px] hover:bg-[#FFFFFF] hover:text-[#000000]">
-            Open an account
-          </Button>
+          <Link to="/website/login">
+            <Button className="bg-[#FFFFFF] rounded-[10px] text-[#343434] border border-[#FFFFFF] hover:text-[#FFFFFF] hover:bg-transparent">
+              Login
+            </Button>
+          </Link>
+          <Link to="/website/register">
+            <Button className="bg-transparent text-[#FFFFFF] border border-[#FFFFFFF] rounded-[10px] hover:bg-[#FFFFFF] hover:text-[#000000]">
+              Open an account
+            </Button>
+          </Link>
         </div>
       </div>
       <img

@@ -27,7 +27,9 @@ export const Header: React.FC = () => {
     ];
   return (
     <div className="flex justify-between bg-[#292929] text-[#FFFFFF] px-[4%] py-5">
-      <img src={Logo} alt="Logo" />
+      <Link to="/">
+        <img src={Logo} alt="Logo" />
+      </Link>
       <div className="flex gap-5 items-center">
         {links.map((link) => (
           <Link to={link.route} className="">
@@ -36,12 +38,16 @@ export const Header: React.FC = () => {
         ))}
 
         <div className="flex gap-3">
-          <Button className="bg-[#292929] border border-[#FFFFFFF] rounded-[200px] hover:bg-[#FFFFFF] hover:text-[#292929]">
-            Login
-          </Button>
-          <Button className="bg-[#FFFFFF] rounded-[200px] text-[#292929] border border-[#FFFFFFF] hover:text-[#FFFFFF]">
-            Register
-          </Button>
+          <Link to="/website/login">
+            <Button className="bg-[#292929] border border-[#FFFFFFF] rounded-[200px] hover:bg-[#FFFFFF] hover:text-[#292929]">
+              Login
+            </Button>
+          </Link>
+          <Link to="/website/register">
+            <Button className="bg-[#FFFFFF] rounded-[200px] text-[#292929] border border-[#FFFFFFF] hover:text-[#FFFFFF]">
+              Register
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
