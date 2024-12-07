@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SomethingImport } from './routes/something'
 import { Route as SidebarImport } from './routes/sidebar'
+import { Route as IndexImport } from './routes/index'
 import { Route as WebsiteIndexImport } from './routes/website/index'
 import { Route as SidebarIndexImport } from './routes/sidebar/index'
 import { Route as WebsiteSignupImport } from './routes/website/signup'
@@ -26,9 +27,30 @@ import { Route as SidebarEditprofileImport } from './routes/sidebar/editprofile'
 
 // Create Virtual Routes
 
+const FeaturesLazyImport = createFileRoute('/features')()
+const ContactLazyImport = createFileRoute('/contact')()
+const BlogsLazyImport = createFileRoute('/blogs')()
 const AboutLazyImport = createFileRoute('/about')()
 
 // Create/Update Routes
+
+const FeaturesLazyRoute = FeaturesLazyImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/features.lazy').then((d) => d.Route))
+
+const ContactLazyRoute = ContactLazyImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/contact.lazy').then((d) => d.Route))
+
+const BlogsLazyRoute = BlogsLazyImport.update({
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/blogs.lazy').then((d) => d.Route))
 
 const AboutLazyRoute = AboutLazyImport.update({
   id: '/about',
@@ -127,6 +149,28 @@ declare module '@tanstack/react-router' {
       fullPath: '/sidebar/editprofile'
       preLoaderRoute: typeof SidebarEditprofileImport
       parentRoute: typeof SidebarImport
+
+    '/blogs': {
+      id: '/blogs'
+      path: '/blogs'
+      fullPath: '/blogs'
+      preLoaderRoute: typeof BlogsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesLazyImport
+      parentRoute: typeof rootRoute
+
     }
     '/sidebar/loan-request': {
       id: '/sidebar/loan-request'
@@ -204,6 +248,9 @@ export interface FileRoutesByFullPath {
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
+  '/blogs': typeof BlogsLazyRoute
+  '/contact': typeof ContactLazyRoute
+  '/features': typeof FeaturesLazyRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/website/login': typeof WebsiteLoginRoute
@@ -217,6 +264,9 @@ export interface FileRoutesByTo {
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
+  '/blogs': typeof BlogsLazyRoute
+  '/contact': typeof ContactLazyRoute
+  '/features': typeof FeaturesLazyRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/website/login': typeof WebsiteLoginRoute
@@ -232,6 +282,9 @@ export interface FileRoutesById {
   '/something': typeof SomethingRoute
   '/about': typeof AboutLazyRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
+  '/blogs': typeof BlogsLazyRoute
+  '/contact': typeof ContactLazyRoute
+  '/features': typeof FeaturesLazyRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/website/login': typeof WebsiteLoginRoute
@@ -248,6 +301,9 @@ export interface FileRouteTypes {
     | '/something'
     | '/about'
     | '/sidebar/editprofile'
+    | '/blogs'
+    | '/contact'
+    | '/features'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/website/login'
@@ -260,6 +316,9 @@ export interface FileRouteTypes {
     | '/something'
     | '/about'
     | '/sidebar/editprofile'
+    | '/blogs'
+    | '/contact'
+    | '/features'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/website/login'
@@ -273,6 +332,9 @@ export interface FileRouteTypes {
     | '/something'
     | '/about'
     | '/sidebar/editprofile'
+    | '/blogs'
+    | '/contact'
+    | '/features'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/website/login'
@@ -287,6 +349,9 @@ export interface RootRouteChildren {
   SidebarRoute: typeof SidebarRouteWithChildren
   SomethingRoute: typeof SomethingRoute
   AboutLazyRoute: typeof AboutLazyRoute
+  BlogsLazyRoute: typeof BlogsLazyRoute
+  ContactLazyRoute: typeof ContactLazyRoute
+  FeaturesLazyRoute: typeof FeaturesLazyRoute
   WebsiteLoginRoute: typeof WebsiteLoginRoute
   WebsiteRegisterRoute: typeof WebsiteRegisterRoute
   WebsiteSignupRoute: typeof WebsiteSignupRoute
@@ -297,6 +362,9 @@ const rootRouteChildren: RootRouteChildren = {
   SidebarRoute: SidebarRouteWithChildren,
   SomethingRoute: SomethingRoute,
   AboutLazyRoute: AboutLazyRoute,
+  BlogsLazyRoute: BlogsLazyRoute,
+  ContactLazyRoute: ContactLazyRoute,
+  FeaturesLazyRoute: FeaturesLazyRoute,
   WebsiteLoginRoute: WebsiteLoginRoute,
   WebsiteRegisterRoute: WebsiteRegisterRoute,
   WebsiteSignupRoute: WebsiteSignupRoute,
@@ -316,6 +384,9 @@ export const routeTree = rootRoute
         "/sidebar",
         "/something",
         "/about",
+        "/blogs",
+        "/contact",
+        "/features",
         "/website/login",
         "/website/register",
         "/website/signup",
@@ -340,6 +411,14 @@ export const routeTree = rootRoute
     "/sidebar/editprofile": {
       "filePath": "sidebar/editprofile.tsx",
       "parent": "/sidebar"
+    "/blogs": {
+      "filePath": "blogs.lazy.tsx"
+    },
+    "/contact": {
+      "filePath": "contact.lazy.tsx"
+    },
+    "/features": {
+      "filePath": "features.lazy.tsx"
     },
     "/sidebar/loan-request": {
       "filePath": "sidebar/loan-request.tsx",
