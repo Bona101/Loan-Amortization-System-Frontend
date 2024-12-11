@@ -1,10 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-
-const Payments = () => {
-  return <div>
-    Payments
-  </div>
-}
+import { Payments } from "@/components/dashboard/main-content/payments/payments";
 
 export const Route = createFileRoute('/sidebar/payments')({
   component: Payments,

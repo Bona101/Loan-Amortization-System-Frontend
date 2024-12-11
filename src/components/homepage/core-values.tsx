@@ -8,19 +8,19 @@ export const CoreValues: React.FC = () => {
         title: "Support and Guidance",
         content:
           "We offer ongoing support, resources, and insights to help our users stay on top of their repayments and make informed financial decisions.",
-        color: "A0A0A0",
+        color: "#A0A0A0",
       },
       {
         title: "Financial Inclusion",
         content:
           "We strive to make loan management tools available to underserved communities, supporting economic growth and independence for small business owners.",
-        color: "FFFFFF",
+        color: "#FFFFFF",
       },
       {
         title: "Transparency & Simplicity",
         content:
           "We prioritize the security of our users' information and transactions, utilizing the latest technology and best practices to keep your data safe.",
-        color: "A0A0A0",
+        color: "#A0A0A0",
       },
     ];
   return (
@@ -35,8 +35,8 @@ export const CoreValues: React.FC = () => {
           your money.
         </p>
         <div className="flex gap-10 pt-5 mt-3">
-          {cards.map((card) => (
-            <div className={`p-5 rounded-[10px] bg-[#${card.color}]`}>
+          {cards.map((card, i) => (
+            <div key={i} className={`p-5 rounded-[10px] bg-[${card.color}]`}>
               <p className="font-medium text-[36px] pb-5 w-[300px]">
                 {card.title}
               </p>

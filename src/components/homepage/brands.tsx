@@ -17,12 +17,13 @@ export const Brands: React.FC = () => {
     { src: TechCrunchLogo, alt: "TechCrunch Logo", width: 109, height: 54.5 },
   ];
   return (
-    <div className="flex justify-between p-[50px] bg-[#9B9B9B] my-[40px]">
-      {logos.map((logo) => (
+    <div className="flex justify-between p-[50px] bg-[#00A6A6] my-[40px]">
+      {logos.map((logo, i) => (
         <img
-        src={logo.src}
-        alt={logo.alt}
-        className={`w-[${logo.width}px] h-[${logo.height}px]`}
+          key={i}
+          src={logo.src}
+          alt={logo.alt}
+          className={`w-[${logo.width}px] h-[${logo.height}px]`}
         />
       ))}
     </div>

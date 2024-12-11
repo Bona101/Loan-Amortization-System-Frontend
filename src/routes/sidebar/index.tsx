@@ -1,6 +1,6 @@
-import DashboardContent from '@/components/dashboard/main-content/dashboard-content'
-import { createFileRoute } from '@tanstack/react-router'
+import DashboardContent from "@/components/dashboard/main-content/dashboard-content";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/sidebar/')({
+export const Route = createFileRoute("/sidebar/")({
   component: DashboardContent,
-})
+});

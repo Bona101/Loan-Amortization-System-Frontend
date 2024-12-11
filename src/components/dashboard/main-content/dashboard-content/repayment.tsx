@@ -32,7 +32,7 @@ const Repayment: React.FC = () => {
               ₦ 10,000.00
             </TableCell>
             <TableCell className="">
-              <Button className="bg-[#00CADC] rounded-3xl w-[205px] h-[48px] text-[#FFFFFF]">
+              <Button className="bg-[#00CADC] rounded-3xl w-[205px] h-[48px] text-[#FFFFFF] hover:text-[#00CADC]">
                 Make Repayment{" "}
               </Button>
             </TableCell>

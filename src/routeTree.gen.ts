@@ -13,17 +13,21 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TreasurerImport } from './routes/treasurer'
 import { Route as SomethingImport } from './routes/something'
 import { Route as SidebarImport } from './routes/sidebar'
 import { Route as IndexImport } from './routes/index'
 import { Route as WebsiteIndexImport } from './routes/website/index'
+import { Route as TreasurerIndexImport } from './routes/treasurer/index'
 import { Route as SidebarIndexImport } from './routes/sidebar/index'
 import { Route as WebsiteSignupImport } from './routes/website/signup'
 import { Route as WebsiteRegisterImport } from './routes/website/register'
 import { Route as WebsiteLoginImport } from './routes/website/login'
+import { Route as SidebarSettingsImport } from './routes/sidebar/settings'
 import { Route as SidebarPaymentsImport } from './routes/sidebar/payments'
 import { Route as SidebarLoanRequestImport } from './routes/sidebar/loan-request'
 import { Route as SidebarEditprofileImport } from './routes/sidebar/editprofile'
+import { Route as TreasurerTablesMonthImport } from './routes/treasurer/tables/$month'
 
 // Create Virtual Routes
 
@@ -58,6 +62,12 @@ const AboutLazyRoute = AboutLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
+const TreasurerRoute = TreasurerImport.update({
+  id: '/treasurer',
+  path: '/treasurer',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const SomethingRoute = SomethingImport.update({
   id: '/something',
   path: '/something',
@@ -80,6 +90,12 @@ const WebsiteIndexRoute = WebsiteIndexImport.update({
   id: '/website/',
   path: '/website/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const TreasurerIndexRoute = TreasurerIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TreasurerRoute,
 } as any)
 
 const SidebarIndexRoute = SidebarIndexImport.update({
@@ -106,6 +122,12 @@ const WebsiteLoginRoute = WebsiteLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SidebarSettingsRoute = SidebarSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => SidebarRoute,
+} as any)
+
 const SidebarPaymentsRoute = SidebarPaymentsImport.update({
   id: '/payments',
   path: '/payments',
@@ -122,6 +144,12 @@ const SidebarEditprofileRoute = SidebarEditprofileImport.update({
   id: '/editprofile',
   path: '/editprofile',
   getParentRoute: () => SidebarRoute,
+} as any)
+
+const TreasurerTablesMonthRoute = TreasurerTablesMonthImport.update({
+  id: '/tables/$month',
+  path: '/tables/$month',
+  getParentRoute: () => TreasurerRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -147,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/something'
       fullPath: '/something'
       preLoaderRoute: typeof SomethingImport
+      parentRoute: typeof rootRoute
+    }
+    '/treasurer': {
+      id: '/treasurer'
+      path: '/treasurer'
+      fullPath: '/treasurer'
+      preLoaderRoute: typeof TreasurerImport
       parentRoute: typeof rootRoute
     }
     '/about': {
@@ -198,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SidebarPaymentsImport
       parentRoute: typeof SidebarImport
     }
+    '/sidebar/settings': {
+      id: '/sidebar/settings'
+      path: '/settings'
+      fullPath: '/sidebar/settings'
+      preLoaderRoute: typeof SidebarSettingsImport
+      parentRoute: typeof SidebarImport
+    }
     '/website/login': {
       id: '/website/login'
       path: '/website/login'
@@ -226,12 +268,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SidebarIndexImport
       parentRoute: typeof SidebarImport
     }
+    '/treasurer/': {
+      id: '/treasurer/'
+      path: '/'
+      fullPath: '/treasurer/'
+      preLoaderRoute: typeof TreasurerIndexImport
+      parentRoute: typeof TreasurerImport
+    }
     '/website/': {
       id: '/website/'
       path: '/website'
       fullPath: '/website'
       preLoaderRoute: typeof WebsiteIndexImport
       parentRoute: typeof rootRoute
+    }
+    '/treasurer/tables/$month': {
+      id: '/treasurer/tables/$month'
+      path: '/tables/$month'
+      fullPath: '/treasurer/tables/$month'
+      preLoaderRoute: typeof TreasurerTablesMonthImport
+      parentRoute: typeof TreasurerImport
     }
   }
 }
@@ -242,6 +298,7 @@ interface SidebarRouteChildren {
   SidebarEditprofileRoute: typeof SidebarEditprofileRoute
   SidebarLoanRequestRoute: typeof SidebarLoanRequestRoute
   SidebarPaymentsRoute: typeof SidebarPaymentsRoute
+  SidebarSettingsRoute: typeof SidebarSettingsRoute
   SidebarIndexRoute: typeof SidebarIndexRoute
 }
 
@@ -249,16 +306,32 @@ const SidebarRouteChildren: SidebarRouteChildren = {
   SidebarEditprofileRoute: SidebarEditprofileRoute,
   SidebarLoanRequestRoute: SidebarLoanRequestRoute,
   SidebarPaymentsRoute: SidebarPaymentsRoute,
+  SidebarSettingsRoute: SidebarSettingsRoute,
   SidebarIndexRoute: SidebarIndexRoute,
 }
 
 const SidebarRouteWithChildren =
   SidebarRoute._addFileChildren(SidebarRouteChildren)
 
+interface TreasurerRouteChildren {
+  TreasurerIndexRoute: typeof TreasurerIndexRoute
+  TreasurerTablesMonthRoute: typeof TreasurerTablesMonthRoute
+}
+
+const TreasurerRouteChildren: TreasurerRouteChildren = {
+  TreasurerIndexRoute: TreasurerIndexRoute,
+  TreasurerTablesMonthRoute: TreasurerTablesMonthRoute,
+}
+
+const TreasurerRouteWithChildren = TreasurerRoute._addFileChildren(
+  TreasurerRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
+  '/treasurer': typeof TreasurerRouteWithChildren
   '/about': typeof AboutLazyRoute
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
@@ -266,11 +339,14 @@ export interface FileRoutesByFullPath {
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
+  '/sidebar/settings': typeof SidebarSettingsRoute
   '/website/login': typeof WebsiteLoginRoute
   '/website/register': typeof WebsiteRegisterRoute
   '/website/signup': typeof WebsiteSignupRoute
   '/sidebar/': typeof SidebarIndexRoute
+  '/treasurer/': typeof TreasurerIndexRoute
   '/website': typeof WebsiteIndexRoute
+  '/treasurer/tables/$month': typeof TreasurerTablesMonthRoute
 }
 
 export interface FileRoutesByTo {
@@ -283,11 +359,14 @@ export interface FileRoutesByTo {
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
+  '/sidebar/settings': typeof SidebarSettingsRoute
   '/website/login': typeof WebsiteLoginRoute
   '/website/register': typeof WebsiteRegisterRoute
   '/website/signup': typeof WebsiteSignupRoute
   '/sidebar': typeof SidebarIndexRoute
+  '/treasurer': typeof TreasurerIndexRoute
   '/website': typeof WebsiteIndexRoute
+  '/treasurer/tables/$month': typeof TreasurerTablesMonthRoute
 }
 
 export interface FileRoutesById {
@@ -295,6 +374,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/sidebar': typeof SidebarRouteWithChildren
   '/something': typeof SomethingRoute
+  '/treasurer': typeof TreasurerRouteWithChildren
   '/about': typeof AboutLazyRoute
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
@@ -302,11 +382,14 @@ export interface FileRoutesById {
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
+  '/sidebar/settings': typeof SidebarSettingsRoute
   '/website/login': typeof WebsiteLoginRoute
   '/website/register': typeof WebsiteRegisterRoute
   '/website/signup': typeof WebsiteSignupRoute
   '/sidebar/': typeof SidebarIndexRoute
+  '/treasurer/': typeof TreasurerIndexRoute
   '/website/': typeof WebsiteIndexRoute
+  '/treasurer/tables/$month': typeof TreasurerTablesMonthRoute
 }
 
 export interface FileRouteTypes {
@@ -315,6 +398,7 @@ export interface FileRouteTypes {
     | '/'
     | '/sidebar'
     | '/something'
+    | '/treasurer'
     | '/about'
     | '/blogs'
     | '/contact'
@@ -322,11 +406,14 @@ export interface FileRouteTypes {
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
+    | '/sidebar/settings'
     | '/website/login'
     | '/website/register'
     | '/website/signup'
     | '/sidebar/'
+    | '/treasurer/'
     | '/website'
+    | '/treasurer/tables/$month'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -338,16 +425,20 @@ export interface FileRouteTypes {
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
+    | '/sidebar/settings'
     | '/website/login'
     | '/website/register'
     | '/website/signup'
     | '/sidebar'
+    | '/treasurer'
     | '/website'
+    | '/treasurer/tables/$month'
   id:
     | '__root__'
     | '/'
     | '/sidebar'
     | '/something'
+    | '/treasurer'
     | '/about'
     | '/blogs'
     | '/contact'
@@ -355,11 +446,14 @@ export interface FileRouteTypes {
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
+    | '/sidebar/settings'
     | '/website/login'
     | '/website/register'
     | '/website/signup'
     | '/sidebar/'
+    | '/treasurer/'
     | '/website/'
+    | '/treasurer/tables/$month'
   fileRoutesById: FileRoutesById
 }
 
@@ -367,6 +461,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SidebarRoute: typeof SidebarRouteWithChildren
   SomethingRoute: typeof SomethingRoute
+  TreasurerRoute: typeof TreasurerRouteWithChildren
   AboutLazyRoute: typeof AboutLazyRoute
   BlogsLazyRoute: typeof BlogsLazyRoute
   ContactLazyRoute: typeof ContactLazyRoute
@@ -381,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SidebarRoute: SidebarRouteWithChildren,
   SomethingRoute: SomethingRoute,
+  TreasurerRoute: TreasurerRouteWithChildren,
   AboutLazyRoute: AboutLazyRoute,
   BlogsLazyRoute: BlogsLazyRoute,
   ContactLazyRoute: ContactLazyRoute,
@@ -404,6 +500,7 @@ export const routeTree = rootRoute
         "/",
         "/sidebar",
         "/something",
+        "/treasurer",
         "/about",
         "/blogs",
         "/contact",
@@ -423,11 +520,19 @@ export const routeTree = rootRoute
         "/sidebar/editprofile",
         "/sidebar/loan-request",
         "/sidebar/payments",
+        "/sidebar/settings",
         "/sidebar/"
       ]
     },
     "/something": {
       "filePath": "something.tsx"
+    },
+    "/treasurer": {
+      "filePath": "treasurer.tsx",
+      "children": [
+        "/treasurer/",
+        "/treasurer/tables/$month"
+      ]
     },
     "/about": {
       "filePath": "about.lazy.tsx"
@@ -453,6 +558,10 @@ export const routeTree = rootRoute
       "filePath": "sidebar/payments.tsx",
       "parent": "/sidebar"
     },
+    "/sidebar/settings": {
+      "filePath": "sidebar/settings.tsx",
+      "parent": "/sidebar"
+    },
     "/website/login": {
       "filePath": "website/login.tsx"
     },
@@ -466,8 +575,16 @@ export const routeTree = rootRoute
       "filePath": "sidebar/index.tsx",
       "parent": "/sidebar"
     },
+    "/treasurer/": {
+      "filePath": "treasurer/index.tsx",
+      "parent": "/treasurer"
+    },
     "/website/": {
       "filePath": "website/index.tsx"
+    },
+    "/treasurer/tables/$month": {
+      "filePath": "treasurer/tables/$month.tsx",
+      "parent": "/treasurer"
     }
   }
 }

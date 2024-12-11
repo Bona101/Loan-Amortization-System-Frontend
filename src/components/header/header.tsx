@@ -26,13 +26,13 @@ export const Header: React.FC = () => {
       },
     ];
   return (
-    <div className="flex justify-between bg-[#292929] text-[#FFFFFF] px-[4%] py-5">
+    <div className="flex justify-between bg-[#026464] text-[#FFFFFF] px-[4%] py-5">
       <Link to="/">
-        <img src={Logo} alt="Logo" />
+        <img className="w-[60px]" src={Logo} alt="Logo" />
       </Link>
       <div className="flex gap-5 items-center">
-        {links.map((link) => (
-          <Link to={link.route} className="">
+        {links.map((link, i) => (
+          <Link key={i} to={link.route} className="">
             <p>{link.title}</p>
           </Link>
         ))}

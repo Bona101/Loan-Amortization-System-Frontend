@@ -3,8 +3,10 @@ import Sidebar from "@/components/dashboard/sidebar/sidebar";
 import DashboardContent from "@/components/dashboard/main-content/dashboard-content";
 
 export const Dashboard: React.FC = () => {
-  return <div className="flex">
-    <Sidebar />
-    <DashboardContent />
-  </div>;
+  return (
+    <div className="flex">
+      <Sidebar />
+      <DashboardContent />
+    </div>
+  );
 };

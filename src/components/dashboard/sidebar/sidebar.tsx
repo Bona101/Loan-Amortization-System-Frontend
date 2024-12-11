@@ -1,5 +1,5 @@
 import React from "react";
-import { DashboardIcon, PaymentIcon, LoanRequest, ProfileIcon } from "@/assets/svg";
+import { DashboardIcon, PaymentIcon, LoanRequest, ProfileIcon, SettingsIcon, LogoutIcon } from "@/assets";
 import { useNavigate } from "@tanstack/react-router";
 
 
@@ -22,17 +22,32 @@ const Sidebar: React.FC = () => {
     },
     {
       icon: ProfileIcon,
-      title: "Edit Profile",
+      title: "My Profile",
       route: "/sidebar/editprofile",
+    },
+    {
+      icon: SettingsIcon,
+      title: "Settings",
+      route: "/sidebar/settings",
+    },
+    {
+      icon: LogoutIcon,
+      title: "Logout",
+      route: "/",
     },
   ];
 
     const navigate = useNavigate();
 
   return (
-    <div className="bg-[#898989] h-screen w-[250px]">
+    <div className="sticky top-0 bg-[#54B8B8] h-screen w-[250px]">
       {items.map((item) => (
-        <div className="flex gap-3 h-[50px] hover:bg-[#FFFFFF] p-3 px-[30px] items-center" onClick={() => {navigate({to: item.route})}}>
+        <div
+          className="flex gap-3 h-[50px] hover:bg-[#FFFFFF] p-3 px-[30px] items-center"
+          onClick={() => {
+            navigate({ to: item.route });
+          }}
+        >
           <div>
             <img src={item.icon} alt="" />
           </div>

@@ -10,6 +10,7 @@ export default {
 		fontFamily: {
 			Lato: ['Lato', 'sans-serif'],
 			Montserrat: ['Montserrat', 'sans-serif'],
+			Poppins: ['Poppins', 'sans-serif'],
 		},
   		borderRadius: {
   			lg: 'var(--radius)',
