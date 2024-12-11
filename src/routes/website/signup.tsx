@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { PasswordInput } from "@/components/Form/passwordinput";
 import { Separator } from "@/components/ui/separator";
+import { Custom404 } from "@/components/custom-404/custom-404";
 
 function SignUp() {
    const [password, setPassword] = useState("");
@@ -26,7 +27,7 @@ function SignUp() {
               type="email"
               placeholder="Enter your email"
             />
-            <PasswordInput
+            {/* <PasswordInput
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -41,7 +42,7 @@ function SignUp() {
               autoComplete="new-password"
               className="w-[342px] h-12 border placeholder:text-left border-bordered rounded-full"
               placeholder="Confirm your password"
-            />
+            /> */}
           </section>
         </div>
         <Button className="mt-4 w-[342px] h-12 bg-[#343434] opacity-55 text-white text-lg rounded-full hover:opacity-80 hover:bg-[#343434]">
@@ -255,5 +256,5 @@ function SignUp() {
 }
 
 export const Route = createFileRoute("/website/signup")({
-  component: SignUp,
+  component: Custom404
 });

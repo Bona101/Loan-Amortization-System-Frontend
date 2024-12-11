@@ -1,6 +1,41 @@
+// import { StrictMode } from "react";
+// import ReactDOM from "react-dom/client";
+// import { RouterProvider, createRouter } from "@tanstack/react-router";
+// import "./index.css";
+
+// // Import the generated route tree
+// import { routeTree } from "./routeTree.gen";
+// import { Custom404 } from "./components/custom-404/custom-404";
+
+// // Create a new router instance
+// const router = createRouter({ routeTree, defaultNotFoundComponent: 
+// () => <Custom404/>
+// });
+
+// // Register the router instance for type safety
+// declare module "@tanstack/react-router" {
+//   interface Register {
+//     router: typeof router;
+//   }
+// }
+
+// // Render the app
+// const rootElement = document.getElementById("root")!;
+// if (!rootElement.innerHTML) {
+//   const root = ReactDOM.createRoot(rootElement);
+//   root.render(
+//     <StrictMode>
+//       <RouterProvider router={router} />
+//     </StrictMode>
+//   );
+// }\
+
+
+
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { AuthProvider } from "@/logi"; // Import AuthProvider
 import "./index.css";
 
 // Import the generated route tree
@@ -8,8 +43,9 @@ import { routeTree } from "./routeTree.gen";
 import { Custom404 } from "./components/custom-404/custom-404";
 
 // Create a new router instance
-const router = createRouter({ routeTree, defaultNotFoundComponent: 
-() => <Custom404/>
+const router = createRouter({
+  routeTree,
+  defaultNotFoundComponent: () => <Custom404 />,
 });
 
 // Register the router instance for type safety
@@ -25,7 +61,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </StrictMode>
   );
 }

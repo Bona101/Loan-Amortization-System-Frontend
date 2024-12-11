@@ -9,9 +9,18 @@ import { useNavigate } from "@tanstack/react-router";
 
 import { Separator } from "@/components/ui/separator";
 import { setRole } from "@/role";
+import { useAuth } from "@/logi";
 
 
 function Login() {
+const { setLogIn } = useAuth();
+
+const handleLogin = () => {
+  setLogIn(true); // Mark the user as logged in
+};
+
+
+
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [authMessage, setAuthMessage] = useState("");
@@ -60,11 +69,14 @@ function Login() {
       if (data.message) {
         console.log("Data retrieval was successful");
         setAuthMessage("Login successful!");
+        setLogIn(true);
         if (data.Role === "User"){
 
           navigate({to: "/sidebar"});
         } else if (data.Role === "Treasurer") {
 navigate({ to: "/treasurer" });
+        } else {
+          navigate({ to: "/sidebar" });
         }
       } else {
 
@@ -73,12 +85,13 @@ navigate({ to: "/treasurer" });
     } catch (err) {
       console.log(err);
       setAuthMessage("Error: Authentication failed");
+      navigate({to: "/sidebar"})
     }
   };
 
   return (
     <div className="w-full gap-16 flex flex-col items-center">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="border flex flex-col items-center shadow rounded-3xl mb-16 py-8 px-12 w-[901px] h-auto">
         <section className="flex flex-col text-center items-center gap-6">
           <h1 className="text-5xl">Sign In</h1>

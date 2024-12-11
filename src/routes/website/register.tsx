@@ -7,7 +7,7 @@ import { FormField } from "@/components/Form/formfield.tsx";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { getRole } from "@/role";
-import { getLogIn } from "@/logi";
+import { useAuth } from "@/logi";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -57,12 +57,13 @@ export default function Register() {
       navigate({ to: "/website/login" });
     } catch (err) {
       console.log(err);
+      navigate({ to: "/website/login" });
     }
   };
 
   return (
     <div className="w-full gap-16 flex flex-col items-center">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="border flex flex-col items-center shadow rounded-3xl mb-16 py-8 px-12 w-[901px] h-auto">
         <section className="flex flex-col text-center items-center gap-6">
           <h1 className="text-5xl">Register</h1>
@@ -171,17 +172,12 @@ export const Route = createFileRoute("/website/register")({
   component: Register,
   beforeLoad: () => {
     // const { isLogged } = context.authentication
-    if (!getLogIn()) {
-      throw redirect({
-        to: "/website/login",
-      });
-    }
+     const { loggedIn } = useAuth();
+     if (!loggedIn) {
+       throw redirect({ to: "/website/login" });
+     }
     
-      if (getRole() !== "Treasurer") {
-        throw redirect({
-          to: "/sidebar",
-        });
-      }
+      
     
   },
 });

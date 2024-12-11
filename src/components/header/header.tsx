@@ -3,29 +3,27 @@ import React from "react";
 import { Logo } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
-import { setLogIn } from "@/logi";
-
-
+// import { getLogIn, setLogIn } from "@/logi";
 
 export const Header: React.FC = () => {
-    const links = [
-      {
-        title: "About",
-        route: "/about",
-      },
-      {
-        title: "Features",
-        route: "/features",
-      },
-      {
-        title: "Blogs",
-        route: "/blogs",
-      },
-      {
-        title: "Contact",
-        route: "/contact",
-      },
-    ];
+  const links = [
+    {
+      title: "About",
+      route: "/about",
+    },
+    {
+      title: "Features",
+      route: "/features",
+    },
+    {
+      title: "Blogs",
+      route: "/blogs",
+    },
+    {
+      title: "Contact",
+      route: "/contact",
+    },
+  ];
   return (
     <div className="flex justify-between bg-[#026464] text-[#FFFFFF] px-[4%] py-5">
       <Link to="/">
@@ -37,8 +35,16 @@ export const Header: React.FC = () => {
             <p>{link.title}</p>
           </Link>
         ))}
-        <div onClick={() => setLogIn(true)}>Log</div>
-        <div onClick={() => setLogIn(false)}>Log out</div>
+        <div
+          onClick={() => {
+            // console.log(getLogIn());
+            // setLogIn(true);
+            // console.log(getLogIn());
+          }}
+        >
+          Log
+        </div>
+        {/* <div onClick={() => setLogIn(false)}>Log out</div> */}
         <div className="flex gap-3">
           <Link to="/website/login">
             <Button className="bg-[#292929] border border-[#FFFFFFF] rounded-[200px] hover:bg-[#FFFFFF] hover:text-[#292929]">
