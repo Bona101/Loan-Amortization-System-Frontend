@@ -7,6 +7,7 @@ export const Route = createFileRoute("/sidebar")({
   component: RouteComponent,
   beforeLoad: () => {
     // const { isLogged } = context.authentication
+    console.log(getLogIn())
     if (!getLogIn()) {
       throw redirect({
         to: "/website/login",

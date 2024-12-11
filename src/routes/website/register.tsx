@@ -7,10 +7,10 @@ import { FormField } from "@/components/Form/formfield.tsx";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import { getRole } from "@/role";
-
+import { getLogIn } from "@/logi";
 
 export default function Register() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [name, setName] = useState("");
@@ -171,10 +171,17 @@ export const Route = createFileRoute("/website/register")({
   component: Register,
   beforeLoad: () => {
     // const { isLogged } = context.authentication
-    if (getRole() !== "Treasurer") {
+    if (!getLogIn()) {
       throw redirect({
-        to: "/sidebar",
+        to: "/website/login",
       });
     }
+    
+      if (getRole() !== "Treasurer") {
+        throw redirect({
+          to: "/sidebar",
+        });
+      }
+    
   },
 });

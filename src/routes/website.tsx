@@ -4,7 +4,7 @@ import { getLogIn } from "@/logi";
 export const Route = createFileRoute("/website")({
   beforeLoad: () => {
     // const { isLogged } = context.authentication
-    if (!getLogIn()) {
+    if (!true) {
       throw redirect({
         to: "/website/login",
       });
