@@ -3,6 +3,7 @@ import React from "react";
 import { Logo } from "@/assets";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
+import { setLogIn } from "@/logi";
 
 
 
@@ -36,7 +37,8 @@ export const Header: React.FC = () => {
             <p>{link.title}</p>
           </Link>
         ))}
-
+        <div onClick={() => setLogIn(true)}>Log</div>
+        <div onClick={() => setLogIn(false)}>Log out</div>
         <div className="flex gap-3">
           <Link to="/website/login">
             <Button className="bg-[#292929] border border-[#FFFFFFF] rounded-[200px] hover:bg-[#FFFFFF] hover:text-[#292929]">
