@@ -16,6 +16,11 @@ const Sidebar: React.FC = () => {
       route: "/sidebar/loan-request",
     },
     {
+      icon: PaymentIcon,
+      title: "Make a Contribution",
+      route: "/sidebar/contribution",
+    },
+    {
       icon: LoanRequest,
       title: "Payments",
       route: "/sidebar/payments",

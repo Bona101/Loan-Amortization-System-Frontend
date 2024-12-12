@@ -38,7 +38,7 @@ export const LoanHistory: React.FC = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allDebitTransactions.map((transaction: { date: string | number | Date; amount: { toLocaleString: () => string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }; state: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; }, index: Key | null | undefined) => (
+          {allDebitTransactions.slice().reverse().map((transaction: { date: string | number | Date; amount: { toLocaleString: () => string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }; state: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; }, index: Key | null | undefined) => (
             <TableRow key={index}>
               {/* Date */}
               <TableCell className="text-2xl font-semibold">

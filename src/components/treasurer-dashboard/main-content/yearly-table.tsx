@@ -58,7 +58,7 @@ const rows = [
   return (
     <div className="">
       <p className="text-[#2C2E3E] font-medium text-[16px] p-5 pb-2 pl-2">
-        Monthly Contribution Amortization for April 2024
+        Yearly Contribution Amortization for April 2024
       </p>
       <hr className="mb-2" />
       <Table className="">

@@ -26,6 +26,7 @@ import { Route as SidebarSettingsImport } from './routes/sidebar/settings'
 import { Route as SidebarPaymentsImport } from './routes/sidebar/payments'
 import { Route as SidebarLoanRequestImport } from './routes/sidebar/loan-request'
 import { Route as SidebarEditprofileImport } from './routes/sidebar/editprofile'
+import { Route as SidebarContributionImport } from './routes/sidebar/contribution'
 import { Route as TreasurerTablesMonthImport } from './routes/treasurer/tables/$month'
 
 // Create Virtual Routes
@@ -139,6 +140,12 @@ const SidebarEditprofileRoute = SidebarEditprofileImport.update({
   getParentRoute: () => SidebarRoute,
 } as any)
 
+const SidebarContributionRoute = SidebarContributionImport.update({
+  id: '/contribution',
+  path: '/contribution',
+  getParentRoute: () => SidebarRoute,
+} as any)
+
 const TreasurerTablesMonthRoute = TreasurerTablesMonthImport.update({
   id: '/tables/$month',
   path: '/tables/$month',
@@ -219,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesLazyImport
       parentRoute: typeof rootRoute
     }
+    '/sidebar/contribution': {
+      id: '/sidebar/contribution'
+      path: '/contribution'
+      fullPath: '/sidebar/contribution'
+      preLoaderRoute: typeof SidebarContributionImport
+      parentRoute: typeof SidebarImport
+    }
     '/sidebar/editprofile': {
       id: '/sidebar/editprofile'
       path: '/editprofile'
@@ -281,6 +295,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface SidebarRouteChildren {
+  SidebarContributionRoute: typeof SidebarContributionRoute
   SidebarEditprofileRoute: typeof SidebarEditprofileRoute
   SidebarLoanRequestRoute: typeof SidebarLoanRequestRoute
   SidebarPaymentsRoute: typeof SidebarPaymentsRoute
@@ -289,6 +304,7 @@ interface SidebarRouteChildren {
 }
 
 const SidebarRouteChildren: SidebarRouteChildren = {
+  SidebarContributionRoute: SidebarContributionRoute,
   SidebarEditprofileRoute: SidebarEditprofileRoute,
   SidebarLoanRequestRoute: SidebarLoanRequestRoute,
   SidebarPaymentsRoute: SidebarPaymentsRoute,
@@ -324,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
   '/features': typeof FeaturesLazyRoute
+  '/sidebar/contribution': typeof SidebarContributionRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
@@ -343,6 +360,7 @@ export interface FileRoutesByTo {
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
   '/features': typeof FeaturesLazyRoute
+  '/sidebar/contribution': typeof SidebarContributionRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
@@ -365,6 +383,7 @@ export interface FileRoutesById {
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
   '/features': typeof FeaturesLazyRoute
+  '/sidebar/contribution': typeof SidebarContributionRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
@@ -388,6 +407,7 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/features'
+    | '/sidebar/contribution'
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
@@ -406,6 +426,7 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/features'
+    | '/sidebar/contribution'
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
@@ -426,6 +447,7 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/features'
+    | '/sidebar/contribution'
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
@@ -500,6 +522,7 @@ export const routeTree = rootRoute
     "/sidebar": {
       "filePath": "sidebar.tsx",
       "children": [
+        "/sidebar/contribution",
         "/sidebar/editprofile",
         "/sidebar/loan-request",
         "/sidebar/payments",
@@ -528,6 +551,10 @@ export const routeTree = rootRoute
     },
     "/features": {
       "filePath": "features.lazy.tsx"
+    },
+    "/sidebar/contribution": {
+      "filePath": "sidebar/contribution.tsx",
+      "parent": "/sidebar"
     },
     "/sidebar/editprofile": {
       "filePath": "sidebar/editprofile.tsx",
