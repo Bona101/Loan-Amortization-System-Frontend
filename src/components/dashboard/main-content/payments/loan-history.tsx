@@ -7,84 +7,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAuth1 } from "@/AuthContent";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from "react";
 
 export const LoanHistory: React.FC = () => {
-  const statusMessage = {
-    success: "Paid",
-    failure: "Not Paid",
-  };
-
-  const rows = [
-    {
-
-      period: {
-        date: "February 9, 2024",
-        time: "05:34:45 AM",
-      },
-      amount: "₦ 200,000.00",
-      status: "Not Paid",
-    },
-    {
-
-      period: {
-        date: "January 8, 2024",
-        time: "05:34:45 AM",
-      },
-      amount: "₦ 123,993.00",
-      status: "Not Paid",
-    },
-    {
-
-      period: {
-        date: "December 13, 2023",
-        time: "05:34:45 AM",
-      },
-      amount: "₦ 73,000.00",
-      status: "Not Paid",
-    },
-    {
-
-      period: {
-        date: "November 11, 2023",
-        time: "05:34:45 AM",
-      },
-      amount: "₦ 150,000.00",
-      status: "Paid",
-    },
-    {
-
-      period: {
-        date: "October 31, 2023",
-        time: "05:34:45 AM",
-      },
-      amount: "₦ 150,000.00",
-      status: "Paid",
-    },
-    {
-
-      period: {
-        date: "January 8, 2024",
-        time: "05:34:45 AM",
-      },
-      amount: "₦ 300,000.00",
-      status: "Paid",
-    },
-  ];
+  const {user} = useAuth1();
+  const transactions = user.Transactions
+  const allDebitTransactions = transactions.filter((transaction: { state: string; }) => transaction.state === 'Debit');
 
   return (
     <div>
       <p className="text-[#2C2E3E] font-medium text-[16px] p-5 pb-2 pl-2">
-        Loan History
+        Transaction History
       </p>
       <hr className="mb-2" />
       <Table className="">
-        <TableCaption></TableCaption>
+        <TableCaption>Showing all transactions</TableCaption>
 
         <TableHeader className="">
           <TableRow>
-  
             <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Date/Time
+              Date
             </TableHead>
             <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
               Amount
@@ -95,29 +38,37 @@ export const LoanHistory: React.FC = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow>
-          
-              <TableCell className="text-3xl text-red-500 font-semibold">
+          {allDebitTransactions.map((transaction: { date: string | number | Date; amount: { toLocaleString: () => string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }; state: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; }, index: Key | null | undefined) => (
+            <TableRow key={index}>
+              {/* Date */}
+              <TableCell className="text-2xl font-semibold">
                 <div>
-                  <p className="font-semibold text-[11.2px] text-[#171B1E]">
-                    {row.period.date}
+                  <p className="text-[12.6px] font-semibold text-[#171B1E]">
+                    {new Date(transaction.date).toLocaleDateString()}
                   </p>
-                  <p className="mt-[-18px] font-bold text-[9.8px] text-[#717579]">
-                    {row.period.time}
+                  <p className="mt-[-13px] font-bold text-[9.8px] text-[#717579]">
+                    {new Date(transaction.date).toLocaleTimeString()}
                   </p>
                 </div>
               </TableCell>
-              <TableCell className="text-3xl text-red-500 font-semibold">
+
+              {/* Amount */}
+              <TableCell className="text-3xl font-semibold">
                 <p className="font-semibold text-[11.2px] text-[#171B1E]">
-                  {row.amount}
+                  ₦{transaction.amount.toLocaleString()}
                 </p>
               </TableCell>
+
+              {/* Status */}
               <TableCell className="">
                 <div
-                  className={`flex items-center justify-center rounded-3xl w-[150px] h-[24px] text-[10px] font-Montserrat font-bold ${row.status === statusMessage.success ? "bg-green-200 text-green-900" : row.status === statusMessage.failure ? "bg-red-200 text-red-900" : "bg-yellow-200 text-yellow-900"}`}
+                  className={`flex items-center justify-center rounded-3xl w-[150px] h-[24px] text-[10px] font-Montserrat font-bold ${
+                    transaction.state === "Credit"
+                      ? "bg-green-200 text-green-900"
+                      : "bg-red-200 text-red-900"
+                  }`}
                 >
-                  <p>{row.status}</p>
+                  <p>{transaction.state}</p>
                 </div>
               </TableCell>
             </TableRow>

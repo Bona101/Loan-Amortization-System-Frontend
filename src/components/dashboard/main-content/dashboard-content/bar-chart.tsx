@@ -1,7 +1,7 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { useAuth1 } from "@/AuthContent";
 
 import {
   Card,
@@ -17,29 +17,35 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-  { month: "July", desktop: 21 },
-  { month: "August", desktop: 114 },
-  { month: "September", desktop: 214 },
-  { month: "October", desktop: 363 },
-  { month: "November", desktop: 94 },
-  { month: "December", desktop: 201 },
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
+
+// Mocking `useAuth1` Transactions data
+// Replace `mockTransactions` with `user.Transactions` in your actual code.
+const mockTransactions = [
+  { date: new Date().toISOString().split("T")[0], amount: 123 },
 ];
 
-const chartConfig = {
-  desktop: {
-    label: "Contributions",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
 
 export function BarChart_() {
+  const { user } = useAuth1();
+  const alltransactions = user?.Transactions || mockTransactions; // Replace `mockTransactions` with `user.Transactions`
+
+  // Transform transactions to match chartData format
+  const chartData = alltransactions.map((transaction: { date: string | number | Date; amount: any; }) => {
+    const date = new Date(transaction.date);
+    const month = date.toLocaleString("default", { month: "long" }); // Extract full month name
+    return {
+      month,
+      amount: transaction.amount,
+    };
+  });
+
+  const chartConfig = {
+    amount: {
+      label: "Contributions",
+      color: "hsl(var(--chart-1))",
+    },
+  } satisfies ChartConfig;
+
   return (
     <Card className="flex-1">
       <CardHeader>
@@ -61,13 +67,13 @@ export function BarChart_() {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value.slice(0, 3)} // Abbreviate month names
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
+            <Bar dataKey="amount" fill="var(--color-desktop)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}
@@ -79,7 +85,6 @@ export function BarChart_() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-       
         <div className="leading-none text-muted-foreground">
           Showing contributions for the past year
         </div>

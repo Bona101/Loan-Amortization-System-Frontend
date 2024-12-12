@@ -36,7 +36,8 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { AuthProvider } from "@/logi"; // Import AuthProvider
-import { useAuth } from "@/hooks/useAuth"; 
+import { useAuth } from "@/hooks/useAuth";
+import { AuthProvider1 } from "./AuthContent";
 
 import "./index.css";
 
@@ -66,7 +67,9 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <AuthProvider>
-        <RouterProvider router={router} context={{ authentication }} />
+        <AuthProvider1>
+          <RouterProvider router={router} context={{ authentication }} />
+        </AuthProvider1>
       </AuthProvider>
     </StrictMode>
   );

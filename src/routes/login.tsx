@@ -1,4 +1,4 @@
-import { Navbar } from '@/components/webiste/navbar.tsx'
+// import { Navbar } from '@/components/webiste/navbar.tsx'
 // import { FormField } from '@/components/Form/formfield.tsx'
 import { Button } from '@/components/ui/button'
 import { PasswordInput } from '@/components/Form/passwordinput'
@@ -9,11 +9,13 @@ import { useNavigate } from '@tanstack/react-router'
 import { Separator } from '@/components/ui/separator'
 import { setRole } from '@/role'
 import { useAuth } from '@/logi'
+import { useAuth1 } from '@/AuthContent'
 import { isAuthenticated, signIn, signOut } from '@/utils/auth'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 
 function Login() {
   const { setLogIn } = useAuth()
+  const { setUser } = useAuth1();
 
   const handleLogin = () => {
     setLogIn(true) // Mark the user as logged in
@@ -66,9 +68,9 @@ function Login() {
         console.log(`State: ${data.Transactions[i].state}`)
       }
       if (data.message) {
+        setUser(data);
         console.log('Data retrieval was successful')
         setAuthMessage('Login successful!')
-        // setLogIn(true);
 
         signIn()
         router.invalidate()

@@ -23,7 +23,6 @@
 // }
 import Sidebar from "@/components/dashboard/sidebar/sidebar";
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
-import { useAuth } from "@/logi";
 
 export const Route = createFileRoute("/sidebar")({
   component: RouteComponent,
