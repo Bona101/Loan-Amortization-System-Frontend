@@ -8,7 +8,7 @@
 //   beforeLoad: () => {
 //     const { loggedIn } = useAuth();
 //     if (!loggedIn) {
-//       throw redirect({ to: "/website/login" });
+//       throw redirect({ to: "/login" });
 //     }
 //   },
 // });
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/sidebar")({
     console.log(context);
     const { isLogged } = context.authentication;
     if (!isLogged()) {
-      throw redirect({ to: "/website/login" });
+      throw redirect({ to: "/login" });
     }
   },
 });
@@ -40,7 +40,7 @@ function RouteComponent() {
   // const { loggedIn } = useAuth();
 
   // if (!loggedIn) {
-  //   throw redirect({ to: "/website/login" });
+  //   throw redirect({ to: "/login" });
   // }
 
   return (

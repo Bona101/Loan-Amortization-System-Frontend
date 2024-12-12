@@ -19,12 +19,12 @@ export const Hero: React.FC = () => {
           control and grow your business with ease.
         </p>
         <div className="flex gap-3 pt-5 mt-3">
-          <Link to="/website/login">
+          <Link to="/login">
             <Button className="bg-[#FFFFFF] rounded-[10px] text-[#343434] border border-[#FFFFFF] hover:text-[#FFFFFF] hover:bg-transparent">
               Login
             </Button>
           </Link>
-          <Link to="/website/register">
+          <Link to="/register">
             <Button className="bg-transparent text-[#FFFFFF] border border-[#FFFFFFF] rounded-[10px] hover:bg-[#FFFFFF] hover:text-[#000000]">
               Open an account
             </Button>

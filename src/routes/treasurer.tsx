@@ -7,7 +7,7 @@ export const Route = createFileRoute("/treasurer")({
   // beforeLoad: () => {
   //   const { loggedIn } = useAuth();
   //   if (!loggedIn) {
-  //     throw redirect({ to: "/website/login" });
+  //     throw redirect({ to: "/login" });
   //   }
   // },
   component: RouteComponent,
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/treasurer")({
     console.log(context)
     const { isLogged } = context.authentication;
     if (!isLogged()) {
-      throw redirect({ to: "/website/login" });
+      throw redirect({ to: "/login" });
     }
   },
 });

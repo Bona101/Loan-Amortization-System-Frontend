@@ -1,106 +1,99 @@
-import { Navbar } from "@/components/webiste/navbar.tsx";
+import { Navbar } from '@/components/webiste/navbar.tsx'
 // import { FormField } from '@/components/Form/formfield.tsx'
-import { Button } from "@/components/ui/button";
-import { PasswordInput } from "@/components/Form/passwordinput";
-import { SetStateAction, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { useNavigate } from "@tanstack/react-router";
+import { Button } from '@/components/ui/button'
+import { PasswordInput } from '@/components/Form/passwordinput'
+import { SetStateAction, useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { useNavigate } from '@tanstack/react-router'
 
-import { Separator } from "@/components/ui/separator";
-import { setRole } from "@/role";
-import { useAuth } from "@/logi";
-import { isAuthenticated, signIn, signOut } from "@/utils/auth";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { Separator } from '@/components/ui/separator'
+import { setRole } from '@/role'
+import { useAuth } from '@/logi'
+import { isAuthenticated, signIn, signOut } from '@/utils/auth'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 
 function Login() {
-const { setLogIn } = useAuth();
+  const { setLogIn } = useAuth()
 
-const handleLogin = () => {
-  setLogIn(true); // Mark the user as logged in
-};
-const router = useRouter();
+  const handleLogin = () => {
+    setLogIn(true) // Mark the user as logged in
+  }
+  const router = useRouter()
 
-
-
-
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [authMessage, setAuthMessage] = useState("");
-    const navigate = useNavigate();
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+  const [authMessage, setAuthMessage] = useState('')
+  const navigate = useNavigate()
 
   const authenticateUser = async () => {
     const userData = {
       username,
       password,
-    };
+    }
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/users/authenticate",
+        'http://127.0.0.1:8000/api/users/authenticate',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(userData),
-        }
-      );
+        },
+      )
 
       //all the database information you need
-      const data = await response.json();
-      console.log(data);
-      console.log(data.User_ID);
-      console.log(data.Name);
-      console.log(data.Username);
-      console.log(data.Password);
-      console.log(data.Balance);
-      console.log(data.Role);
-      setRole(data.Role);
+      const data = await response.json()
+      console.log(data)
+      console.log(data.User_ID)
+      console.log(data.Name)
+      console.log(data.Username)
+      console.log(data.Password)
+      console.log(data.Balance)
+      console.log(data.Role)
+      setRole(data.Role)
 
       //for when monthly payment is due Nigger
       console.log(
-        `Next Payment Date: ${data.Transactions[data.Transactions.length - 1].date}`
-      );
+        `Next Payment Date: ${data.Transactions[data.Transactions.length - 1].date}`,
+      )
 
       //for you to see all important information from transactions
       for (let i = 0; i < data.Transactions.length; i++) {
-        console.log(`Transaction ${i + 1}:`);
-        console.log(`Date: ${data.Transactions[i].date}`);
-        console.log(`Amount: ${data.Transactions[i].amount}`);
-        console.log(`State: ${data.Transactions[i].state}`);
+        console.log(`Transaction ${i + 1}:`)
+        console.log(`Date: ${data.Transactions[i].date}`)
+        console.log(`Amount: ${data.Transactions[i].amount}`)
+        console.log(`State: ${data.Transactions[i].state}`)
       }
       if (data.message) {
-        console.log("Data retrieval was successful");
-        setAuthMessage("Login successful!");
+        console.log('Data retrieval was successful')
+        setAuthMessage('Login successful!')
         // setLogIn(true);
-        
-        signIn();
-        router.invalidate();
 
+        signIn()
+        router.invalidate()
 
-        if (data.Role === "User"){
-
-          navigate({to: "/sidebar"});
-        } else if (data.Role === "Treasurer") {
-navigate({ to: "/treasurer" });
+        if (data.Role === 'User') {
+          navigate({ to: '/sidebar' })
+        } else if (data.Role === 'Treasurer') {
+          navigate({ to: '/treasurer' })
         } else {
-          navigate({ to: "/sidebar" });
+          navigate({ to: '/sidebar' })
         }
       } else {
-
-        setAuthMessage(data.message || "Authentication failed");
+        setAuthMessage(data.message || 'Authentication failed')
       }
     } catch (err) {
-      console.log(err);
-      setAuthMessage("Error: Authentication failed");
-      navigate({to: "/sidebar"})
+      console.log(err)
+      setAuthMessage('Error: Authentication failed')
+      navigate({ to: '/sidebar' })
     }
-  };
-
-  const unAuthenticateUser = () => {
-signOut();
-router.invalidate();
   }
 
+  const unAuthenticateUser = () => {
+    signOut()
+    router.invalidate()
+  }
 
   ///////
 
@@ -110,8 +103,8 @@ router.invalidate();
         <p>Hello user!</p>
         <button
           onClick={async () => {
-            signOut();
-            router.invalidate();
+            signOut()
+            router.invalidate()
           }}
         >
           Sign out
@@ -120,15 +113,14 @@ router.invalidate();
     ) : (
       <button
         onClick={async () => {
-          signIn();
-          router.invalidate();
+          signIn()
+          router.invalidate()
         }}
       >
         Sign in
       </button>
-    );
+    )
   }
-
 
   ///////
 
@@ -726,9 +718,9 @@ router.invalidate();
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export const Route = createFileRoute("/website/login")({
+export const Route = createFileRoute('/login')({
   component: Login,
-});
+})

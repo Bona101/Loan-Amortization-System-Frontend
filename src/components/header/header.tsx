@@ -46,12 +46,12 @@ export const Header: React.FC = () => {
         </div> */}
         {/* <div onClick={() => setLogIn(false)}>Log out</div> */}
         <div className="flex gap-3">
-          <Link to="/website/login">
+          <Link to="/login">
             <Button className="bg-[#292929] border border-[#FFFFFFF] rounded-[200px] hover:bg-[#FFFFFF] hover:text-[#292929]">
               Login
             </Button>
           </Link>
-          <Link to="/website/register">
+          <Link to="/register">
             <Button className="bg-[#FFFFFF] rounded-[200px] text-[#292929] border border-[#FFFFFFF] hover:text-[#FFFFFF]">
               Register
             </Button>
