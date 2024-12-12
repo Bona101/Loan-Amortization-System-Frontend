@@ -1,133 +1,209 @@
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { useAuth1 } from "@/AuthContent";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState, useEffect } from "react";
+
+interface Transaction {
+  profile_name: string;
+  amount: string;
+  state: string;
+  interest_on_loan: string;
+  date: string; // Django date format (e.g., '2024-12-12')
+}
 
 export const YearlyTable: React.FC = () => {
+  const { user } = useAuth1();
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [sortBy, setSortBy] = useState<'date' | 'profile_name'>('date');
+  const [monthFilter, setMonthFilter] = useState<number | null>(null);
+  const [userFilter, setUserFilter] = useState<string>(""); // Filter by user name
 
+  useEffect(() => {
+    allUsersTransactions();
+  }, []);
 
-const rows = [
-  {
-    memberName: "Mrs. Felicia Imade",
-    yearlyPayment: "₦ 20,000.00",
-    interestGained: "₦ 00.00",
-    totalLoan: "₦ 00.00",
-    loanReturned: "₦ 00.00",
-    loanBalance: "₦ 00.00",
-    totalPayment: "₦ 00.00",
-    remark: "₦ 00.00",
-  },
-  {
-    memberName: "Mrs. Felicia Imade",
-    yearlyPayment: "₦ 20,000.00",
-    interestGained: "₦ 00.00",
-    totalLoan: "₦ 00.00",
-    loanReturned: "₦ 00.00",
-    loanBalance: "₦ 00.00",
-    totalPayment: "₦ 00.00",
-    remark: "₦ 00.00",
-  },
-  {
-    memberName: "Mrs. Felicia Imade",
-    yearlyPayment: "₦ 20,000.00",
-    interestGained: "₦ 00.00",
-    totalLoan: "₦ 00.00",
-    loanReturned: "₦ 00.00",
-    loanBalance: "₦ 00.00",
-    totalPayment: "₦ 00.00",
-    remark: "₦ 00.00",
-  },
-  {
-    memberName: "Mrs. Felicia Imade",
-    yearlyPayment: "₦ 20,000.00",
-    interestGained: "₦ 00.00",
-    totalLoan: "₦ 00.00",
-    loanReturned: "₦ 00.00",
-    loanBalance: "₦ 00.00",
-    totalPayment: "₦ 00.00",
-    remark: "₦ 00.00",
-  },
-];
+  const allUsersTransactions = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/trans");
+      const data: Transaction[] = await response.json();
+      if (data) {
+        setTransactions(data);
+        console.log("These are all transactions from DB:", data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const sortTransactions = (a: Transaction, b: Transaction) => {
+    let comparison = 0;
+
+    if (sortBy === 'date') {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      comparison = dateA.getTime() - dateB.getTime();
+    } else if (sortBy === 'profile_name') {
+      comparison = a.profile_name.localeCompare(b.profile_name);
+    }
+
+    return sortOrder === 'asc' ? comparison : -comparison;
+  };
+
+  const handleSort = (field: 'date' | 'profile_name') => {
+    if (sortBy === field) {
+      const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+      setSortOrder(newSortOrder);
+    } else {
+      setSortBy(field);
+      setSortOrder('desc');
+    }
+  };
+
+  // Calculate total sum for amount and interest on loan
+  const totalAmount = transactions.filter((transaction: { state: string; }) => transaction.state === 'Credit').reduce((sum, row) => sum + parseFloat(row.amount.replace(/,/g, '')), 0);
+  const totalAmountDr = transactions.filter((transaction: { state: string; }) => transaction.state === 'Debit').reduce((sum, row) => sum + parseFloat(row.amount.replace(/,/g, '')), 0);
+  const totalInterest = transactions.reduce((sum, row) => sum + parseFloat(row.interest_on_loan.replace(/,/g, '')), 0);
+
+  // Filter transactions by the selected month and user filter
+  const filteredTransactions = transactions.filter((transaction) => {
+    const transactionDate = new Date(transaction.date);
+    const matchesMonth = monthFilter !== null ? transactionDate.getMonth() === monthFilter : true;
+    const matchesUser = userFilter ? transaction.profile_name.toLowerCase().includes(userFilter.toLowerCase()) : true;
+    return matchesMonth && matchesUser;
+  });
 
   return (
-    <div className="">
-      <p className="text-[#2C2E3E] font-medium text-[16px] p-5 pb-2 pl-2">
-        Yearly Contribution Amortization for April 2024
+    <div className="p-5">
+      <p className="text-[#2C2E3E] font-medium text-[16px] pb-2">
+        All Transactions by All Users
       </p>
       <hr className="mb-2" />
-      <Table className="">
-        <TableCaption></TableCaption>
 
-        <TableHeader className="">
+      {/* Month Filter Section */}
+      <div className="mb-4">
+        <label htmlFor="monthFilter" className="mr-2 text-sm">Filter by Month: </label>
+        <select
+          id="monthFilter"
+          value={monthFilter ?? ''}
+          onChange={(e) => setMonthFilter(e.target.value ? parseInt(e.target.value, 10) : null)}
+          className="border p-2 rounded"
+        >
+          <option value="">All Months</option>
+          {[...Array(12)].map((_, i) => (
+            <option key={i} value={i}>{new Date(2024, i).toLocaleString('default', { month: 'long' })}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* User Filter Section */}
+      <div className="mb-4">
+        <label htmlFor="userFilter" className="mr-2 text-sm">Filter by User Name: </label>
+        <input
+          type="text"
+          id="userFilter"
+          value={userFilter}
+          onChange={(e) => setUserFilter(e.target.value)}
+          placeholder="Enter user name"
+          className="border p-2 rounded"
+        />
+      </div>
+
+      <Table>
+        <TableCaption></TableCaption>
+        <TableHeader>
           <TableRow>
             <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Member Names
+              S/N
+            </TableHead>
+            <TableHead
+              className="text-base text-[10px] font-semibold font-Montserrat text-gray-500 cursor-pointer"
+              onClick={() => handleSort('profile_name')}
+            >
+              Member Name
+              {sortBy === 'profile_name' && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
             </TableHead>
             <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Yearly Payment
+              Amount
+            </TableHead>
+            <TableHead
+              className="text-base text-[10px] font-semibold font-Montserrat text-gray-500 cursor-pointer"
+              onClick={() => handleSort('date')}
+            >
+              Date
+              {sortBy === 'date' && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
             </TableHead>
             <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Interest Gained
+              State
             </TableHead>
             <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Total Loan
-            </TableHead>
-            <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Loan Returned
-            </TableHead>
-
-            <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Loan Balance
-            </TableHead>
-            <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Total Payment
-            </TableHead>
-            <TableHead className="text-base text-[10px] font-semibold font-Montserrat text-gray-500">
-              Remark
+              Interest on Loan
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rows.map((row, i) => (
-            <TableRow>
-              <TableCell
-                className={`${i === rows.length - 1 ? "font-bold" : ""}`}
-              >
-                <p>{row.memberName}</p>
-              </TableCell>
-              <TableCell className="">
-                <p>{row.yearlyPayment}</p>
-              </TableCell>
-              <TableCell className="">
-                <p>{row.interestGained}</p>
-              </TableCell>
-              <TableCell className="">
-                <p>{row.totalLoan}</p>
-              </TableCell>
-              <TableCell className="">
-                <p>{row.loanReturned}</p>
-              </TableCell>
-              <TableCell className="">
-                <p>{row.loanBalance}</p>
-              </TableCell>
-              <TableCell className="">
-                <p>{row.totalPayment}</p>
-              </TableCell>
-              <TableCell className="">
-                <div
-                  className={`w-[150px] h-[24px] flex items-center justify-center ${row.remark === "Ok" ? "bg-green-200" : row.remark === "Debtor" ? "bg-red-200" : "bg-yellow-200"}`}
-                >
-                  <p>{row.remark}</p>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {filteredTransactions.sort(sortTransactions).map((row, i) => {
+            const amount = parseFloat(row.amount.replace(/,/g, '')); 
+            const interest_on_loan = parseFloat(row.interest_on_loan.replace(/,/g, '')); 
+            return (
+              <TableRow key={i}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{row.profile_name || "N/A"}</TableCell>
+                <TableCell className={row.state === "Debit" ? "text-red-500" : "text-green-500"}>
+                  ₦{amount.toLocaleString('en-NG') || "0"}
+                </TableCell>
+                <TableCell>{new Date(row.date).toLocaleDateString()}</TableCell> 
+                <TableCell className="font-semibold">
+                  <span className={row.state === "Debit" ? "text-red-500" : row.state === "Credit" ? "text-green-500" : "text-black"}>
+                    {row.state || "Unknown"}
+                  </span>
+                </TableCell>
+                <TableCell className={interest_on_loan === 0 ? "text-red-500" : "text-green-500"}>
+                  ₦{interest_on_loan.toLocaleString('en-NG') || "0"}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+          {/* Final Row for Totals */}
+          <TableRow>
+            <TableCell colSpan={2} className="text-right font-semibold text-lg">
+              TOTAL
+            </TableCell>
+            <TableCell className="font-semibold text-lg">
+              <span className="text-green-500">
+                ₦{totalAmount.toLocaleString('en-NG') || "0"} (Contributed)
+              </span>
+              <span className="text-red-500">
+                ₦{totalAmountDr.toLocaleString('en-NG') || "0"} (Loaned)
+              </span>
+            </TableCell>
+            <TableCell></TableCell>
+            <TableCell className="font-semibold text-lg">
+              <span className="text-green-500">
+                ₦{totalInterest.toLocaleString('en-NG') || "0"}
+                <br />
+                (Interest On Loan)
+              </span>
+            </TableCell>
+          </TableRow>
+
+          {/* Displaying the Top Contributor and Top Loaner */}
+          <TableRow>
+            <TableCell colSpan={2} className="font-semibold text-lg">
+              <span className="text-black">Top Contributor: </span>
+              <span className="text-green-500">
+                {transactions.reduce((top, row) =>
+                  (row.state === "Credit" && parseFloat(row.amount.replace(/,/g, '')) > parseFloat(top.amount.replace(/,/g, ''))) ? row : top, { profile_name: "N/A", amount: "0" }).profile_name}
+              </span>
+            </TableCell>
+            <TableCell></TableCell>
+            <TableCell colSpan={2} className="font-semibold text-lg">
+              <span className="text-black">Top Loaner: </span>
+              <span className="text-red-500">
+                {transactions.reduce((top, row) =>
+                  (row.state === "Debit" && parseFloat(row.amount.replace(/,/g, '')) > parseFloat(top.amount.replace(/,/g, ''))) ? row : top, { profile_name: "N/A", amount: "0" }).profile_name}
+              </span>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </div>

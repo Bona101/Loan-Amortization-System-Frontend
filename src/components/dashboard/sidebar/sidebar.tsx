@@ -42,19 +42,23 @@ const Sidebar: React.FC = () => {
     },
   ];
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="sticky top-0 bg-[#54B8B8] h-screen w-[250px]">
       {items.map((item) => (
         <div
-          className="flex gap-3 h-[50px] hover:bg-[#FFFFFF] p-3 px-[30px] items-center"
+          key={item.title}
+          className="flex gap-3 h-[50px] hover:bg-[#FFFFFF] p-3 px-[30px] items-center cursor-pointer"
           onClick={() => {
             navigate({ to: item.route });
+            if (item.title === "Logout") {
+              window.location.reload(); // Force page refresh after navigating
+            }
           }}
         >
           <div>
-            <img src={item.icon} alt="" />
+            <img src={item.icon} alt={item.title} />
           </div>
           <p>{item.title}</p>
         </div>

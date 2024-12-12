@@ -1,11 +1,10 @@
 import { NairaGreen, NairaWhite } from "@/assets";
 import { MonthlyTable } from "./monthly-table";
 import { useAuth1 } from "@/AuthContent";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 
 export const Monthly: React.FC = () => {
   const { user } = useAuth1();
-  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     allUsersTransactions();
@@ -13,10 +12,12 @@ export const Monthly: React.FC = () => {
 
   const allUsersTransactions = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/");
+      const response = await fetch("http://127.0.0.1:8000/api/users/trans");
       const data = await response.json();
-      setTransactions(data);
-      console.log(data);
+
+      if (data) {
+        console.log(`This are all transactions from DB: ${data}`);
+      }
     } catch (err) {
       console.log(err);
     }

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import {
   DashboardIcon,
   PaymentIcon,
-  LoanRequest,
-  ProfileIcon,
-  SettingsIcon,
+  // LoanRequest,
+  // ProfileIcon,
+  // SettingsIcon,
   LogoutIcon,
 } from "@/assets";
 import { useNavigate } from "@tanstack/react-router";
@@ -20,11 +20,10 @@ export const TreasurerSidebar: React.FC = () => {
     {
       icon: PaymentIcon,
       title: "Tables",
-      route: "/treasurer/tables/January",
+      route: "/treasurer/tables",
       // subroutes: ["/treasurer/tables"],
       subsections: [
-        { icon: "", title: "Monthly", route: "/treasurer/tables/Yearly" },
-        { icon: "", title: "Yearly", route: "/treasurer/tables/Yearly" },
+        { icon: "", title: "All Transactions", route: "/treasurer/tables/Yearly" },
       ],
     },
 
