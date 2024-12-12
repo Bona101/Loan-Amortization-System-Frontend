@@ -36,6 +36,8 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { AuthProvider } from "@/logi"; // Import AuthProvider
+import { useAuth } from "@/hooks/useAuth"; 
+
 import "./index.css";
 
 // Import the generated route tree
@@ -46,6 +48,7 @@ import { Custom404 } from "./components/custom-404/custom-404";
 const router = createRouter({
   routeTree,
   defaultNotFoundComponent: () => <Custom404 />,
+  context: { authentication: undefined! },
 });
 
 // Register the router instance for type safety
@@ -59,10 +62,11 @@ declare module "@tanstack/react-router" {
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
+  const authentication = useAuth();
   root.render(
     <StrictMode>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={router} context={{ authentication }} />
       </AuthProvider>
     </StrictMode>
   );

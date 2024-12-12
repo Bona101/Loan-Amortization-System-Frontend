@@ -170,14 +170,12 @@ export default function Register() {
 
 export const Route = createFileRoute("/website/register")({
   component: Register,
-  beforeLoad: () => {
-    // const { isLogged } = context.authentication
-     const { loggedIn } = useAuth();
-     if (!loggedIn) {
-       throw redirect({ to: "/website/login" });
-     }
-    
-      
+  beforeLoad: async ({ context }) => {
+    const { isLogged } = context.authentication;
+    if (!isLogged()) {
+      throw redirect({ to: "/website/login" });
+    }
+    // later will add condition to check if treasurer or not
     
   },
 });

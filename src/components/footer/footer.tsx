@@ -53,32 +53,32 @@ export const Footer: React.FC = () => {
         </div>
         <div>
           <p className="text-[17px]">Services</p>
-          {services.map((service) => (
-            <a className="block text-[15px] pt-3" href="">
+          {services.map((service, i) => (
+            <a key={i} className="block text-[15px] pt-3" href="">
               {service}
             </a>
           ))}
         </div>
         <div>
           <p className="text-[17px]">About</p>
-          {abouts.map((about) => (
-            <a className="block text-[15px] pt-3" href="">
+          {abouts.map((about, i) => (
+            <a key={i} className="block text-[15px] pt-3" href="">
               {about}
             </a>
           ))}
         </div>
         <div>
           <p className="text-[17px]">Help</p>
-          {helps.map((help) => (
-            <a className="block text-[15px] pt-3" href="">
+          {helps.map((help, i) => (
+            <a key={i} className="block text-[15px] pt-3" href="">
               {help}
             </a>
           ))}
         </div>
       </div>
       <div className="flex gap-10">
-        {socials.map((social) => (
-          <a href={social.link}>
+        {socials.map((social, i) => (
+          <a key={i} href={social.link}>
             <img src={social.icon} alt="" />
           </a>
         ))}

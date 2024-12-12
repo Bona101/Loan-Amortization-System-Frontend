@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
             <p>{link.title}</p>
           </Link>
         ))}
-        <div
+        {/* <div
           onClick={() => {
             // console.log(getLogIn());
             // setLogIn(true);
@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
           }}
         >
           Log
-        </div>
+        </div> */}
         {/* <div onClick={() => setLogIn(false)}>Log out</div> */}
         <div className="flex gap-3">
           <Link to="/website/login">

@@ -27,6 +27,13 @@ import { useAuth } from "@/logi";
 
 export const Route = createFileRoute("/sidebar")({
   component: RouteComponent,
+  beforeLoad: async ({ context }) => {
+    console.log(context);
+    const { isLogged } = context.authentication;
+    if (!isLogged()) {
+      throw redirect({ to: "/website/login" });
+    }
+  },
 });
 
 function RouteComponent() {

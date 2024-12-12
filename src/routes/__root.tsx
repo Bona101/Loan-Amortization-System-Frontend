@@ -1,9 +1,23 @@
 import { Footer } from "@/components";
 import { Header } from "@/components/header/header";
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import {
+  Link,
+  Outlet,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
+import { AuthContext } from "../hooks/useAuth";
+const activeProps = {
+  style: {
+    fontWeight: "bold",
+  },
+};
 
-export const Route = createRootRoute({
+type RouterContext = {
+  authentication: AuthContext;
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <Header />

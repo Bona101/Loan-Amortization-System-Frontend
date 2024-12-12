@@ -11,6 +11,13 @@ export const Route = createFileRoute("/treasurer")({
   //   }
   // },
   component: RouteComponent,
+  beforeLoad: async ({ context }) => {
+    console.log(context)
+    const { isLogged } = context.authentication;
+    if (!isLogged()) {
+      throw redirect({ to: "/website/login" });
+    }
+  },
 });
 
 function RouteComponent() {
