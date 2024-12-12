@@ -10,12 +10,13 @@ import { useAuth1 } from "@/AuthContent";
 export const Contribution = () => {
     const { user } = useAuth1();
     const pk = user.User_ID;
+    const pk1 = parseInt(pk, 10);
     const balance = user.Balance;
     const [amount, setAmount] = useState<string>("");
     const [state, setState] = useState<string>("Credit");
 
     // Add Transaction Function
-    const addTransaction = async (userId: string, transactionData: { amount: string, state: string }) => {
+    const addTransaction = async (userId: string, transactionData: { amount: string, state: string, profile_id: number }) => {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/users/create/trans/${userId}`, {
                 method: "POST",
@@ -57,7 +58,7 @@ export const Contribution = () => {
                         <Button
                             className="w-full border border-[#54D4A0] rounded"
                             onClick={() =>
-                                addTransaction(pk, { amount, state }) // Pass dynamic data here
+                                addTransaction(pk, { amount, state, profile_id: pk1 }) // Pass dynamic data here
                             }
                         >
                             Make Contribution

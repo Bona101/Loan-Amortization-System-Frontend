@@ -11,6 +11,7 @@ export const LoanRequest = () => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const { user } = useAuth1();
   const pk = user.User_ID;
+  const pk1 = parseInt(pk, 10);
   const [amount, setAmount] = useState<string>("");
   const [state, setState] = useState<string>("Debit");
   const today = new Date();
@@ -18,7 +19,7 @@ export const LoanRequest = () => {
   const futureDate = today.toISOString().split('T')[0]; // Format it as yyyy-mm-dd
 
   // Add Transaction Function
-  const addTransaction = async (userId: string, transactionData: { amount: string, state: string }) => {
+  const addTransaction = async (userId: string, transactionData: { amount: string, state: string, profile_id: number }) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/users/create/trans/${userId}`, {
         method: "POST",
@@ -58,7 +59,7 @@ export const LoanRequest = () => {
             <FormSelect
               label="Choose an option"
               id="dropdown-example"
-              options={["30 days","60 days"]}
+              options={["30 days", "60 days"]}
               selectedOption={selectedOption}
               onOptionSelect={(value) => {
                 setSelectedOption(value);
@@ -104,7 +105,7 @@ export const LoanRequest = () => {
               <Button
                 className="w-full border border-[#54D4A0] rounded"
                 onClick={() =>
-                  addTransaction(pk, { amount, state }) // Pass dynamic data here
+                  addTransaction(pk, { amount, state, profile_id: pk1 }) // Pass dynamic data here
                 }
               >
                 Request Loan
