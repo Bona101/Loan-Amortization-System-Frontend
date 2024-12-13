@@ -1,6 +1,7 @@
 import React from "react";
 import { DashboardIcon, PaymentIcon, LoanRequest, ProfileIcon, SettingsIcon, LogoutIcon } from "@/assets";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
+import { signOut } from "@/utils/auth";
 
 
 const Sidebar: React.FC = () => {
@@ -16,20 +17,25 @@ const Sidebar: React.FC = () => {
       route: "/sidebar/loan-request",
     },
     {
-      icon: LoanRequest,
-      title: "Payments",
-      route: "/sidebar/payments",
+      icon: PaymentIcon,
+      title: "Contibute",
+      route: "/sidebar/contribution",
     },
+    // {
+    //   icon: LoanRequest,
+    //   title: "Payments",
+    //   route: "/sidebar/payments",
+    // },
     {
       icon: ProfileIcon,
       title: "My Profile",
       route: "/sidebar/editprofile",
     },
-    {
-      icon: SettingsIcon,
-      title: "Settings",
-      route: "/sidebar/settings",
-    },
+    // {
+    //   icon: SettingsIcon,
+    //   title: "Settings",
+    //   route: "/sidebar/settings",
+    // },
     {
       icon: LogoutIcon,
       title: "Logout",
@@ -38,6 +44,7 @@ const Sidebar: React.FC = () => {
   ];
 
     const navigate = useNavigate();
+      const router = useRouter();
 
   return (
     <div className="sticky top-0 bg-[#54B8B8] h-screen w-[250px]">
@@ -45,6 +52,10 @@ const Sidebar: React.FC = () => {
         <div
           className="flex gap-3 h-[50px] hover:bg-[#FFFFFF] p-3 px-[30px] items-center"
           onClick={() => {
+            if (item.title === "Logout") {
+              signOut();
+              router.invalidate();
+            } 
             navigate({ to: item.route });
           }}
         >

@@ -22,11 +22,14 @@ import { Route as IndexImport } from './routes/index'
 import { Route as TreasurerIndexImport } from './routes/treasurer/index'
 import { Route as SidebarIndexImport } from './routes/sidebar/index'
 import { Route as WebsiteSignupImport } from './routes/website/signup'
+import { Route as TreasurerLoansImport } from './routes/treasurer/loans'
+import { Route as TreasurerContributionsImport } from './routes/treasurer/contributions'
+import { Route as TreasurerAllTransactionsImport } from './routes/treasurer/all-transactions'
 import { Route as SidebarSettingsImport } from './routes/sidebar/settings'
 import { Route as SidebarPaymentsImport } from './routes/sidebar/payments'
 import { Route as SidebarLoanRequestImport } from './routes/sidebar/loan-request'
 import { Route as SidebarEditprofileImport } from './routes/sidebar/editprofile'
-import { Route as TreasurerTablesMonthImport } from './routes/treasurer/tables/$month'
+import { Route as SidebarContributionImport } from './routes/sidebar/contribution'
 
 // Create Virtual Routes
 
@@ -115,6 +118,24 @@ const WebsiteSignupRoute = WebsiteSignupImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const TreasurerLoansRoute = TreasurerLoansImport.update({
+  id: '/loans',
+  path: '/loans',
+  getParentRoute: () => TreasurerRoute,
+} as any)
+
+const TreasurerContributionsRoute = TreasurerContributionsImport.update({
+  id: '/contributions',
+  path: '/contributions',
+  getParentRoute: () => TreasurerRoute,
+} as any)
+
+const TreasurerAllTransactionsRoute = TreasurerAllTransactionsImport.update({
+  id: '/all-transactions',
+  path: '/all-transactions',
+  getParentRoute: () => TreasurerRoute,
+} as any)
+
 const SidebarSettingsRoute = SidebarSettingsImport.update({
   id: '/settings',
   path: '/settings',
@@ -139,10 +160,10 @@ const SidebarEditprofileRoute = SidebarEditprofileImport.update({
   getParentRoute: () => SidebarRoute,
 } as any)
 
-const TreasurerTablesMonthRoute = TreasurerTablesMonthImport.update({
-  id: '/tables/$month',
-  path: '/tables/$month',
-  getParentRoute: () => TreasurerRoute,
+const SidebarContributionRoute = SidebarContributionImport.update({
+  id: '/contribution',
+  path: '/contribution',
+  getParentRoute: () => SidebarRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -219,6 +240,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesLazyImport
       parentRoute: typeof rootRoute
     }
+    '/sidebar/contribution': {
+      id: '/sidebar/contribution'
+      path: '/contribution'
+      fullPath: '/sidebar/contribution'
+      preLoaderRoute: typeof SidebarContributionImport
+      parentRoute: typeof SidebarImport
+    }
     '/sidebar/editprofile': {
       id: '/sidebar/editprofile'
       path: '/editprofile'
@@ -247,6 +275,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SidebarSettingsImport
       parentRoute: typeof SidebarImport
     }
+    '/treasurer/all-transactions': {
+      id: '/treasurer/all-transactions'
+      path: '/all-transactions'
+      fullPath: '/treasurer/all-transactions'
+      preLoaderRoute: typeof TreasurerAllTransactionsImport
+      parentRoute: typeof TreasurerImport
+    }
+    '/treasurer/contributions': {
+      id: '/treasurer/contributions'
+      path: '/contributions'
+      fullPath: '/treasurer/contributions'
+      preLoaderRoute: typeof TreasurerContributionsImport
+      parentRoute: typeof TreasurerImport
+    }
+    '/treasurer/loans': {
+      id: '/treasurer/loans'
+      path: '/loans'
+      fullPath: '/treasurer/loans'
+      preLoaderRoute: typeof TreasurerLoansImport
+      parentRoute: typeof TreasurerImport
+    }
     '/website/signup': {
       id: '/website/signup'
       path: '/website/signup'
@@ -268,19 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TreasurerIndexImport
       parentRoute: typeof TreasurerImport
     }
-    '/treasurer/tables/$month': {
-      id: '/treasurer/tables/$month'
-      path: '/tables/$month'
-      fullPath: '/treasurer/tables/$month'
-      preLoaderRoute: typeof TreasurerTablesMonthImport
-      parentRoute: typeof TreasurerImport
-    }
   }
 }
 
 // Create and export the route tree
 
 interface SidebarRouteChildren {
+  SidebarContributionRoute: typeof SidebarContributionRoute
   SidebarEditprofileRoute: typeof SidebarEditprofileRoute
   SidebarLoanRequestRoute: typeof SidebarLoanRequestRoute
   SidebarPaymentsRoute: typeof SidebarPaymentsRoute
@@ -289,6 +332,7 @@ interface SidebarRouteChildren {
 }
 
 const SidebarRouteChildren: SidebarRouteChildren = {
+  SidebarContributionRoute: SidebarContributionRoute,
   SidebarEditprofileRoute: SidebarEditprofileRoute,
   SidebarLoanRequestRoute: SidebarLoanRequestRoute,
   SidebarPaymentsRoute: SidebarPaymentsRoute,
@@ -300,13 +344,17 @@ const SidebarRouteWithChildren =
   SidebarRoute._addFileChildren(SidebarRouteChildren)
 
 interface TreasurerRouteChildren {
+  TreasurerAllTransactionsRoute: typeof TreasurerAllTransactionsRoute
+  TreasurerContributionsRoute: typeof TreasurerContributionsRoute
+  TreasurerLoansRoute: typeof TreasurerLoansRoute
   TreasurerIndexRoute: typeof TreasurerIndexRoute
-  TreasurerTablesMonthRoute: typeof TreasurerTablesMonthRoute
 }
 
 const TreasurerRouteChildren: TreasurerRouteChildren = {
+  TreasurerAllTransactionsRoute: TreasurerAllTransactionsRoute,
+  TreasurerContributionsRoute: TreasurerContributionsRoute,
+  TreasurerLoansRoute: TreasurerLoansRoute,
   TreasurerIndexRoute: TreasurerIndexRoute,
-  TreasurerTablesMonthRoute: TreasurerTablesMonthRoute,
 }
 
 const TreasurerRouteWithChildren = TreasurerRoute._addFileChildren(
@@ -324,14 +372,17 @@ export interface FileRoutesByFullPath {
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
   '/features': typeof FeaturesLazyRoute
+  '/sidebar/contribution': typeof SidebarContributionRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/sidebar/settings': typeof SidebarSettingsRoute
+  '/treasurer/all-transactions': typeof TreasurerAllTransactionsRoute
+  '/treasurer/contributions': typeof TreasurerContributionsRoute
+  '/treasurer/loans': typeof TreasurerLoansRoute
   '/website/signup': typeof WebsiteSignupRoute
   '/sidebar/': typeof SidebarIndexRoute
   '/treasurer/': typeof TreasurerIndexRoute
-  '/treasurer/tables/$month': typeof TreasurerTablesMonthRoute
 }
 
 export interface FileRoutesByTo {
@@ -343,14 +394,17 @@ export interface FileRoutesByTo {
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
   '/features': typeof FeaturesLazyRoute
+  '/sidebar/contribution': typeof SidebarContributionRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/sidebar/settings': typeof SidebarSettingsRoute
+  '/treasurer/all-transactions': typeof TreasurerAllTransactionsRoute
+  '/treasurer/contributions': typeof TreasurerContributionsRoute
+  '/treasurer/loans': typeof TreasurerLoansRoute
   '/website/signup': typeof WebsiteSignupRoute
   '/sidebar': typeof SidebarIndexRoute
   '/treasurer': typeof TreasurerIndexRoute
-  '/treasurer/tables/$month': typeof TreasurerTablesMonthRoute
 }
 
 export interface FileRoutesById {
@@ -365,14 +419,17 @@ export interface FileRoutesById {
   '/blogs': typeof BlogsLazyRoute
   '/contact': typeof ContactLazyRoute
   '/features': typeof FeaturesLazyRoute
+  '/sidebar/contribution': typeof SidebarContributionRoute
   '/sidebar/editprofile': typeof SidebarEditprofileRoute
   '/sidebar/loan-request': typeof SidebarLoanRequestRoute
   '/sidebar/payments': typeof SidebarPaymentsRoute
   '/sidebar/settings': typeof SidebarSettingsRoute
+  '/treasurer/all-transactions': typeof TreasurerAllTransactionsRoute
+  '/treasurer/contributions': typeof TreasurerContributionsRoute
+  '/treasurer/loans': typeof TreasurerLoansRoute
   '/website/signup': typeof WebsiteSignupRoute
   '/sidebar/': typeof SidebarIndexRoute
   '/treasurer/': typeof TreasurerIndexRoute
-  '/treasurer/tables/$month': typeof TreasurerTablesMonthRoute
 }
 
 export interface FileRouteTypes {
@@ -388,14 +445,17 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/features'
+    | '/sidebar/contribution'
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/sidebar/settings'
+    | '/treasurer/all-transactions'
+    | '/treasurer/contributions'
+    | '/treasurer/loans'
     | '/website/signup'
     | '/sidebar/'
     | '/treasurer/'
-    | '/treasurer/tables/$month'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -406,14 +466,17 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/features'
+    | '/sidebar/contribution'
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/sidebar/settings'
+    | '/treasurer/all-transactions'
+    | '/treasurer/contributions'
+    | '/treasurer/loans'
     | '/website/signup'
     | '/sidebar'
     | '/treasurer'
-    | '/treasurer/tables/$month'
   id:
     | '__root__'
     | '/'
@@ -426,14 +489,17 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/features'
+    | '/sidebar/contribution'
     | '/sidebar/editprofile'
     | '/sidebar/loan-request'
     | '/sidebar/payments'
     | '/sidebar/settings'
+    | '/treasurer/all-transactions'
+    | '/treasurer/contributions'
+    | '/treasurer/loans'
     | '/website/signup'
     | '/sidebar/'
     | '/treasurer/'
-    | '/treasurer/tables/$month'
   fileRoutesById: FileRoutesById
 }
 
@@ -500,6 +566,7 @@ export const routeTree = rootRoute
     "/sidebar": {
       "filePath": "sidebar.tsx",
       "children": [
+        "/sidebar/contribution",
         "/sidebar/editprofile",
         "/sidebar/loan-request",
         "/sidebar/payments",
@@ -513,8 +580,10 @@ export const routeTree = rootRoute
     "/treasurer": {
       "filePath": "treasurer.tsx",
       "children": [
-        "/treasurer/",
-        "/treasurer/tables/$month"
+        "/treasurer/all-transactions",
+        "/treasurer/contributions",
+        "/treasurer/loans",
+        "/treasurer/"
       ]
     },
     "/about": {
@@ -528,6 +597,10 @@ export const routeTree = rootRoute
     },
     "/features": {
       "filePath": "features.lazy.tsx"
+    },
+    "/sidebar/contribution": {
+      "filePath": "sidebar/contribution.tsx",
+      "parent": "/sidebar"
     },
     "/sidebar/editprofile": {
       "filePath": "sidebar/editprofile.tsx",
@@ -545,6 +618,18 @@ export const routeTree = rootRoute
       "filePath": "sidebar/settings.tsx",
       "parent": "/sidebar"
     },
+    "/treasurer/all-transactions": {
+      "filePath": "treasurer/all-transactions.tsx",
+      "parent": "/treasurer"
+    },
+    "/treasurer/contributions": {
+      "filePath": "treasurer/contributions.tsx",
+      "parent": "/treasurer"
+    },
+    "/treasurer/loans": {
+      "filePath": "treasurer/loans.tsx",
+      "parent": "/treasurer"
+    },
     "/website/signup": {
       "filePath": "website/signup.tsx"
     },
@@ -554,10 +639,6 @@ export const routeTree = rootRoute
     },
     "/treasurer/": {
       "filePath": "treasurer/index.tsx",
-      "parent": "/treasurer"
-    },
-    "/treasurer/tables/$month": {
-      "filePath": "treasurer/tables/$month.tsx",
       "parent": "/treasurer"
     }
   }

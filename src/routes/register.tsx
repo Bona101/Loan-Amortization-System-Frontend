@@ -14,6 +14,7 @@ export default function Register() {
 
   const [selectedOption, setSelectedOption] = useState<string>('')
   const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
   const [username, setUsername] = useState('')
@@ -29,8 +30,8 @@ export default function Register() {
 
   // Effect to update username based on first, middle, and last name
   useEffect(() => {
-    setName(`${name}${middleName}${lastName}`)
-  }, [name, middleName, lastName])
+    setName(`${firstName}${middleName}${lastName}`)
+  }, [firstName, middleName, lastName])
 
   //Creating a new user
   const addUser = async () => {
@@ -88,7 +89,7 @@ export default function Register() {
             <h3 className="font-semibold">First Name</h3>
             <FormField
               id="fname"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               className="w-[342px] h-12 border border-bordered rounded"
               type="text"
             />
@@ -112,7 +113,7 @@ export default function Register() {
             />
           </section>
           <section className="flex flex-col gap-2">
-            <h3 className="font-semibold">Email</h3>
+            <h3 className="font-semibold">Username</h3>
             <FormField
               id="email"
               onChange={(e) => setUsername(e.target.value)}
@@ -172,7 +173,7 @@ export const Route = createFileRoute('/register')({
   component: Register,
   beforeLoad: async ({ context }) => {
     const { isLogged } = context.authentication
-    if (!isLogged()) {
+    if (isLogged()) {
       throw redirect({ to: '/login' })
     }
     // later will add condition to check if treasurer or not

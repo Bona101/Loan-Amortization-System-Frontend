@@ -21,7 +21,7 @@ console.log(user)
 
     const rows = [];
     for (let i = 0; i < user?.Transactions.length; i++) {
-      if (parseFloat(user?.Transactions[i].amount) >= 0){
+      if (parseFloat(user?.Transactions[i].amount) < 0){
         continue;
       }
         rows.push({
@@ -131,7 +131,7 @@ console.log(user)
                 </div>
               </TableCell>
               <TableCell className="text-3xl text-red-500 font-semibold">
-                <p className="font-semibold text-[11.2px] text-red-500">
+                <p className="font-semibold text-[11.2px] text-green-500">
                   {row.amount}
                 </p>
               </TableCell>

@@ -7,48 +7,63 @@ import {
   SettingsIcon,
   LogoutIcon,
 } from "@/assets";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
+import { signOut } from "@/utils/auth";
 
 export const TreasurerSidebar: React.FC = () => {
   const items = [
+
     {
-      icon: DashboardIcon,
-      title: "Dashboard",
-      route: "/treasurer",
+      icon: PaymentIcon,
+      title: "All transactions",
+      route: "/treasurer/all-transactions",
       subsections: [],
     },
     {
       icon: PaymentIcon,
-      title: "Tables",
-      route: "/treasurer/tables/January",
-      // subroutes: ["/treasurer/tables"],
-      subsections: [
-        { icon: "", title: "January", route: "/treasurer/tables/January" },
-        { icon: "", title: "February", route: "/treasurer/tables/February" },
-        { icon: "", title: "March", route: "/treasurer/tables/March" },
-        { icon: "", title: "April", route: "/treasurer/tables/April" },
-        { icon: "", title: "May", route: "/treasurer/tables/May" },
-        { icon: "", title: "June", route: "/treasurer/tables/June" },
-        { icon: "", title: "July", route: "/treasurer/tables/July" },
-        { icon: "", title: "August", route: "/treasurer/tables/August" },
-        { icon: "", title: "September", route: "/treasurer/tables/September" },
-        { icon: "", title: "October", route: "/treasurer/tables/October" },
-        { icon: "", title: "November", route: "/treasurer/tables/November" },
-        { icon: "", title: "December", route: "/treasurer/tables/December" },
-        { icon: "", title: "Yearly", route: "/treasurer/tables/Yearly" },
-      ],
+      title: "All Contributions",
+      route: "/treasurer/contributions",
+      subsections: [],
     },
+    {
+      icon: PaymentIcon,
+      title: "All Loans",
+      route: "/treasurer/loans",
+      subsections: [],
+    },
+
+    // {
+    //   icon: PaymentIcon,
+    //   title: "Tables",
+    //   route: "/treasurer/tables/January",
+    //   // subroutes: ["/treasurer/tables"],
+    //   subsections: [
+    //     { icon: "", title: "January", route: "/treasurer/tables/January" },
+    //     { icon: "", title: "February", route: "/treasurer/tables/February" },
+    //     { icon: "", title: "March", route: "/treasurer/tables/March" },
+    //     { icon: "", title: "April", route: "/treasurer/tables/April" },
+    //     { icon: "", title: "May", route: "/treasurer/tables/May" },
+    //     { icon: "", title: "June", route: "/treasurer/tables/June" },
+    //     { icon: "", title: "July", route: "/treasurer/tables/July" },
+    //     { icon: "", title: "August", route: "/treasurer/tables/August" },
+    //     { icon: "", title: "September", route: "/treasurer/tables/September" },
+    //     { icon: "", title: "October", route: "/treasurer/tables/October" },
+    //     { icon: "", title: "November", route: "/treasurer/tables/November" },
+    //     { icon: "", title: "December", route: "/treasurer/tables/December" },
+    //     { icon: "", title: "Yearly", route: "/treasurer/tables/Yearly" },
+    //   ],
+    // },
 
     {
       icon: LogoutIcon,
       title: "Logout",
-      route: "/",
+      route: "/login",
       subsections: [],
     },
   ];
 
   const navigate = useNavigate();
-
+  const router = useRouter();
   const [showTables, setShowTables] = useState(false);
 
   return (
@@ -61,6 +76,10 @@ export const TreasurerSidebar: React.FC = () => {
               if (item.title === "Tables") {
                 setShowTables((prev) => !prev);
               } else {
+                if (item.title === "Logout") {
+                  signOut();
+                  router.invalidate();
+                } 
                 navigate({ to: item.route });
               }
             }}

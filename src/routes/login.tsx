@@ -13,7 +13,7 @@ import { isAuthenticated, signIn, signOut } from '@/utils/auth'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 
 function Login() {
-  const { setLogIn } = useAuth()
+  const { setLogIn, setUser } = useAuth()
 
   const handleLogin = () => {
     setLogIn(true) // Mark the user as logged in
@@ -69,14 +69,15 @@ function Login() {
         console.log('Data retrieval was successful')
         setAuthMessage('Login successful!')
         // setLogIn(true);
-
+setUser(data);
         signIn()
+        s(true)
         router.invalidate()
 
         if (data.Role === 'User') {
           navigate({ to: '/sidebar' })
         } else if (data.Role === 'Treasurer') {
-          navigate({ to: '/treasurer' })
+          navigate({ to: '/treasurer/all-transactions' })
         } else {
           navigate({ to: '/sidebar' })
         }
@@ -92,18 +93,24 @@ function Login() {
 
   const unAuthenticateUser = () => {
     signOut()
+    s(false)
     router.invalidate()
   }
+
+  const [a, s] = useState(isAuthenticated());
+
+
 
   ///////
 
   {
-    !isAuthenticated() ? (
+    !a ? (
       <>
         <p>Hello user!</p>
         <button
           onClick={async () => {
             signOut()
+            s(false)
             router.invalidate()
           }}
         >
@@ -114,6 +121,7 @@ function Login() {
       <button
         onClick={async () => {
           signIn()
+          s(true)
           router.invalidate()
         }}
       >

@@ -112,10 +112,11 @@ import { FormSelect } from "@/components/Form/formselect.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
 import { DatePicker } from "@/components/ui/datepicker.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { LoanHistory } from "./loan-history";
+import { LoanHistory } from "./contribution-history";
 import { useAuth } from "@/logi";
+import { parse } from "path";
 
-export const LoanRequest = () => {
+export const Contribution = () => {
   const { user } = useAuth();
 
   // State variables to store the input values
@@ -204,9 +205,7 @@ export const LoanRequest = () => {
         <div className="flex flex-col mt-8 items-center justify-center h-full">
           <section className="w-full flex flex-col text-center items-center gap-12">
             <div className="space-y-4">
-              <h2 className="font-black text-3xl">
-                Total Amount being borrowed
-              </h2>
+              <h2 className="font-black text-3xl">Amount being contributed</h2>
               <h3 className="text-[#54D4A0] text-2xl font-semibold">
                 ₦
                 {parseFloat(amount).toLocaleString("en-NG") !== "NaN"
@@ -215,13 +214,11 @@ export const LoanRequest = () => {
               </h3>
             </div>
             <div className="space-y-4">
-              <h2 className="font-black text-3xl">Total Amount To Be Paid</h2>
+              <h2 className="font-black text-3xl">Interest to be gained</h2>
               <h3 className="text-[#54D4A0] text-2xl font-semibold">
                 ₦
-                {(
-                  (parseFloat(amount) * 2.5) / 100 +
-                  parseFloat(amount)
-                ).toLocaleString("en-NG") !== "NaN"
+                {((parseFloat(amount) * 2.5) / 100).toLocaleString("en-NG") !==
+                "NaN"
                   ? ((parseFloat(amount) * 2.5) / 100).toLocaleString("en-NG")
                   : "0.00"}
               </h3>
@@ -233,13 +230,13 @@ export const LoanRequest = () => {
                 className="w-full border border-[#54D4A0] rounded"
                 onClick={() => {
                   addTransaction(user?.User_ID, {
-                    amount: (parseFloat(amount) * -1).toString(),
+                    amount: parseFloat(amount).toString(),
                     state: "Debit",
                     profile_id: user?.User_ID,
                   });
                 }}
               >
-                Request Loan
+                Contribute
               </Button>
             </div>
           </section>
