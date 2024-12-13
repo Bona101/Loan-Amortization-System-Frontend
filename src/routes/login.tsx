@@ -69,6 +69,7 @@ function Login() {
         console.log('Data retrieval was successful')
         setAuthMessage('Login successful!')
         // setLogIn(true);
+        localStorage.setItem("data", JSON.stringify(data)); 
 setUser(data);
         signIn()
         s(true)

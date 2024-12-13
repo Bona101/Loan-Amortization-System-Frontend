@@ -18,7 +18,7 @@ const TransactionHistory: React.FC = () => {
     failure: "Failed",
   };
   const rows = [];
-for (let i = 0; i < user?.Transactions.length; i++){
+for (let i = 0; i < user?.Transactions?.length; i++){
 rows.push({
   date: `${user?.Transactions[i].date}`,
 

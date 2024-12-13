@@ -33,7 +33,7 @@ const Repayment: React.FC = () => {
         <TableBody>
           <TableRow>
             <TableCell className="text-2xl font-semibold">
-              {user?.Transactions[0].next_payment}
+              {user?.Transactions[0]?.next_payment}
             </TableCell>
             <TableCell className="text-3xl text-red-500 font-medium">
               ₦{user?.Balance * -1}

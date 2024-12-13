@@ -49,7 +49,7 @@ const chartConfig = {
 export function BarChart_() {
   const { user } = useAuth();
   const chartData = [];
-  for (let i =0; i< 10 && i < user?.Transactions.length; i++){
+  for (let i =0; i< 10 && i < user?.Transactions?.length; i++){
     const amount = user?.Transactions[i].amount;
     const amountStr = new Intl.NumberFormat().format(amount);
     let color = "desktop"

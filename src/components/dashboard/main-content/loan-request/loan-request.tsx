@@ -174,8 +174,20 @@ export const LoanRequest = () => {
               value={amount} // Bind to state
               onChange={handleAmountChange} // Update state on change
             />
+            <Button
+              className="w-full border border-[#54D4A0] rounded"
+              onClick={() => {
+                addTransaction(user?.User_ID, {
+                  amount: (parseFloat(amount) * -1).toString(),
+                  state: "Debit",
+                  profile_id: user?.User_ID,
+                });
+              }}
+            >
+              Take Loan
+            </Button>
             {/* Dropdown select */}
-            <FormSelect
+            {/* <FormSelect
               label="Choose an option"
               id="dropdown-example"
               options={["60 days", "90 days", "120 days"]}
@@ -183,17 +195,17 @@ export const LoanRequest = () => {
               onOptionSelect={handleOptionSelect} // Update selected option
               className="w-[342px] h-12 border border-bordered rounded"
               placeholder="30 Days"
-            />
+            /> */}
           </section>
           <div className="w-full mt-32">
             <div className="flex text-[#54D4A0] px-4 font-semibold text-xs justify-between w-full">
               <p>Interest Rate %</p>
-              <p>Deposit Date</p>
+              {/* <p>Deposit Date</p> */}
             </div>
             <Separator className="w-full bg-gray-300 h-[1px]" decorative />
             <div className="flex mt-4 justify-between items-center pl-4 pr-4 w-full">
               <p>2.5%</p>
-              <DatePicker className="max-w-[140px] rounded border border-bordered" />
+              {/* <DatePicker className="max-w-[140px] rounded border border-bordered" /> */}
             </div>
           </div>
         </div>
@@ -227,20 +239,8 @@ export const LoanRequest = () => {
               </h3>
             </div>
             <div className="w-full space-y-6">
-              <h2 className="font-black text-3xl">Due Date</h2>
-              <DatePicker className="w-full rounded border border-bordered" />
-              <Button
-                className="w-full border border-[#54D4A0] rounded"
-                onClick={() => {
-                  addTransaction(user?.User_ID, {
-                    amount: (parseFloat(amount) * -1).toString(),
-                    state: "Debit",
-                    profile_id: user?.User_ID,
-                  });
-                }}
-              >
-                Request Loan
-              </Button>
+              {/* <h2 className="font-black text-3xl">Due Date</h2>
+              <DatePicker className="w-full rounded border border-bordered" /> */}
             </div>
           </section>
         </div>

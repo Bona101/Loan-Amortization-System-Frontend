@@ -27,7 +27,7 @@ console.log(user)
         rows.push({
           date: `${user?.Transactions[i].date}`,
 
-          amount: `₦ ${parseFloat(user?.Transactions[i].amount) * -1}`,
+          amount: `₦ ${parseFloat(user?.Transactions[i].amount)}`,
         });
     }
 
@@ -148,7 +148,7 @@ console.log(user)
         <TableFooter>
           {rows.length === 0 ? (
             <div className="flex justify-center items-center p-10">
-              <p>No loans</p>
+              <p>No contributions</p>
             </div>
           ) : (
             ""
