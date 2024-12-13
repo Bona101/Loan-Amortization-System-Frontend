@@ -38,7 +38,7 @@ import {
 const chartConfig = {
   desktop: {
     label: "Contributions",
-    color: "hsl(120, 100%, 50%);",
+    color: "hsl(0, 100%, 50%);",
   },
   desktop2: {
     label: "Loans",
@@ -46,25 +46,26 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function BarChart_() {
+export function BarChart_2() {
   const { user } = useAuth();
   const chartData = [];
   for (let i =0; i< 10 && i < user?.Transactions?.length; i++){
-    let amount = user?.Transactions[i].amount;
+    const amount = user?.Transactions[i].amount;
     const amountStr = new Intl.NumberFormat().format(amount);
     let color = "desktop"
     if(amount < 0){
       color = "desktop2";
+      console.log("hi")
     }
-    if (amount < 0){
-      amount = -amount;
+    if (amount >= 0){
+      continue;
     }
-  chartData.push({month: "", [color]: amount})
+  chartData.push({month: "", [color]: -amount})
 }
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle>Recent Contributions</CardTitle>
+        <CardTitle>Recent Loans</CardTitle>
         {/* <CardDescription>March 2023 - February 2024</CardDescription> */}
       </CardHeader>
       <CardContent>
@@ -88,35 +89,21 @@ export function BarChart_() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            {/* <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
+            <Bar dataKey="desktop2" fill="var(--color-desktop)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}
                 className="fill-foreground"
                 fontSize={12}
               />
-            </Bar> */}
-            {Object.keys(chartConfig).map((key) => (
-              <Bar
-                key={key}
-                dataKey={key}
-                fill={`var(--color-${key})`}
-                radius={8}
-              >
-                <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
-                />
-              </Bar>
-            ))}
+            </Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
+       
         <div className="leading-none text-muted-foreground">
-          Showing recent contributions
+          Showing recent loans
         </div>
       </CardFooter>
     </Card>

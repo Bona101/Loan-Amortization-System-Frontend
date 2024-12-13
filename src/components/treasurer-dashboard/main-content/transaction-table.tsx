@@ -92,7 +92,17 @@ export const TransactionsTable: React.FC = () => {
     return matchesMonth && matchesUser;
   });
 
-  const positiveSum = transactions
+  // Filter transactions by the selected month before calculating sums
+  const filteredTransactionsByMonth =
+    monthFilter !== null
+      ? transactions.filter((transaction) => {
+          const transactionDate = new Date(transaction.date);
+          return transactionDate.getMonth() === monthFilter;
+        })
+      : transactions;
+
+  // Calculate positive and negative sums based on filtered transactions
+  const positiveSum = filteredTransactionsByMonth
     .filter(
       (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) > 0
     )
@@ -102,7 +112,7 @@ export const TransactionsTable: React.FC = () => {
       0
     );
 
-  const negativeSum = transactions
+  const negativeSum = filteredTransactionsByMonth
     .filter(
       (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) < 0
     )
@@ -111,6 +121,26 @@ export const TransactionsTable: React.FC = () => {
         sum + parseFloat(transaction.amount.replace(/,/g, "")),
       0
     );
+
+  // const positiveSum = transactions
+  //   .filter(
+  //     (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) > 0
+  //   )
+  //   .reduce(
+  //     (sum, transaction) =>
+  //       sum + parseFloat(transaction.amount.replace(/,/g, "")),
+  //     0
+  //   );
+
+  // const negativeSum = transactions
+  //   .filter(
+  //     (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) < 0
+  //   )
+  //   .reduce(
+  //     (sum, transaction) =>
+  //       sum + parseFloat(transaction.amount.replace(/,/g, "")),
+  //     0
+  //   );
 
   console.log("Positive Sum:", positiveSum);
   console.log("Negative Sum:", negativeSum);
@@ -222,9 +252,7 @@ export const TransactionsTable: React.FC = () => {
                       //   : row.state === "Credit"
                       //     ? "text-green-500"
                       //     : "text-black"
-                      amount < 0
-                        ? "text-red-500"
-                        : "text-green-500"
+                      amount < 0 ? "text-red-500" : "text-green-500"
                     }
                   >
                     {amount < 0 ? "Loan" : "Contribution"}
@@ -252,7 +280,7 @@ export const TransactionsTable: React.FC = () => {
             <TableCell className="font-bold text-2xl">
               Total loaned:{" "}
               <span className="text-red-500">
-                ₦{(-negativeSum).toLocaleString("en-NG") || "0"}
+                ₦{(parseFloat((negativeSum * -1).toString())).toLocaleString("en-NG") || "0"}
               </span>
             </TableCell>
             <TableCell className="font-bold text-2xl">

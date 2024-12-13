@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
     },
     {
       icon: PaymentIcon,
-      title: "Contibute",
+      title: "Contribute",
       route: "/sidebar/contribution",
     },
     // {

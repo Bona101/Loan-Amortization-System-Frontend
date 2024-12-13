@@ -93,7 +93,17 @@ export const ContributionTable: React.FC = () => {
     return matchesMonth && matchesUser;
   });
 
-  const positiveSum = transactions
+  // Filter transactions by the selected month before calculating sums
+  const filteredTransactionsByMonth =
+    monthFilter !== null
+      ? transactions.filter((transaction) => {
+          const transactionDate = new Date(transaction.date);
+          return transactionDate.getMonth() === monthFilter;
+        })
+      : transactions;
+
+  // Calculate positive and negative sums based on filtered transactions
+  const positiveSum = filteredTransactionsByMonth
     .filter(
       (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) > 0
     )
@@ -103,7 +113,7 @@ export const ContributionTable: React.FC = () => {
       0
     );
 
-  const negativeSum = transactions
+  const negativeSum = filteredTransactionsByMonth
     .filter(
       (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) < 0
     )
@@ -112,10 +122,29 @@ export const ContributionTable: React.FC = () => {
         sum + parseFloat(transaction.amount.replace(/,/g, "")),
       0
     );
+  // const positiveSum = transactions
+  //   .filter(
+  //     (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) > 0
+  //   )
+  //   .reduce(
+  //     (sum, transaction) =>
+  //       sum + parseFloat(transaction.amount.replace(/,/g, "")),
+  //     0
+  //   );
+
+  // const negativeSum = transactions
+  //   .filter(
+  //     (transaction) => parseFloat(transaction.amount.replace(/,/g, "")) < 0
+  //   )
+  //   .reduce(
+  //     (sum, transaction) =>
+  //       sum + parseFloat(transaction.amount.replace(/,/g, "")),
+  //     0
+  //   );
 
   console.log("Positive Sum:", positiveSum);
   console.log("Negative Sum:", negativeSum);
-let prev = 0;
+  let prev = 0;
   return (
     <div className="p-5">
       <p className="text-[#2C2E3E] font-medium text-[16px] pb-2">
@@ -195,12 +224,12 @@ let prev = 0;
         <TableBody>
           {filteredTransactions.sort(sortTransactions).map((row, i) => {
             const amount = parseFloat(row.amount.replace(/,/g, ""));
-if (amount < 0){
-  return ;
-}
-aa += amount;
-console.log("sus",aa)
-  prev = prev + 1;
+            if (amount < 0) {
+              return;
+            }
+            aa += amount;
+            console.log("sus", aa);
+            prev = prev + 1;
             const interest_on_loan = parseFloat(
               row.interest_on_loan.replace(/,/g, "")
             );

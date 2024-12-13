@@ -156,6 +156,8 @@ export const Contribution = () => {
     }
   };
 
+  const [as,c] = useState("Contribute")
+
   return (
     <div className="flex flex-col w-full m-[40px] flex-grow">
       <h1 className="text-[43px] text-center font-semibold">
@@ -183,9 +185,10 @@ export const Contribution = () => {
                   state: "Debit",
                   profile_id: user?.User_ID,
                 });
+                c("Contribute 👍");
               }}
             >
-              Contribute
+              {as}
             </Button>
             {/* Dropdown select */}
             {/* <FormSelect

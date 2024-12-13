@@ -5,6 +5,7 @@ import TransactionHistory from "@/components/dashboard/main-content/dashboard-co
 import { BarChart_ } from "./bar-chart";
 import { PieChart_ } from "./pie-chart";
 import { useAuth } from "@/logi";
+import { BarChart_2 } from "./bar-chart2";
 
 
 const DashboardContent: React.FC = () => {
@@ -88,8 +89,9 @@ const DashboardContent: React.FC = () => {
         <Repayment />
 
         {/* <div className="flex gap-[100px]"> */}
-        <div className="">
+        <div className="flex gap-10">
           <BarChart_/>
+          {/* <BarChart_2/> */}
           {/* <PieChart_/> */}
         </div>
 

@@ -22,7 +22,7 @@ for (let i = 0; i < user?.Transactions?.length; i++){
 rows.push({
   date: `${user?.Transactions[i].date}`,
 
-  amount: `₦ ${user?.Transactions[i].amount}`,
+  amount: user?.Transactions[i].amount,
 });
 }
   // const rows = [
@@ -101,7 +101,6 @@ rows.push({
   // ];
 
   return (
-    
     <div>
       <p className="text-[#2C2E3E] font-medium text-[16px] p-5 pb-2 pl-2">
         Transaction History
@@ -150,8 +149,10 @@ rows.push({
                 </div>
               </TableCell>
               <TableCell className="text-3xl text-red-500 font-semibold">
-                <p className="font-semibold text-[11.2px] text-[#171B1E]">
-                  {row.amount}
+                <p
+                  className={`font-semibold text-[11.2px] ${row.amount < 0 ? "text-red-500" : "text-green-500"}`}
+                >
+                  ₦{row.amount < 0 ? row.amount * -1 : row.amount}
                 </p>
               </TableCell>
               {/* <TableCell className="">

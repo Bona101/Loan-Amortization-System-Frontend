@@ -117,7 +117,7 @@ import { useAuth } from "@/logi";
 
 export const LoanRequest = () => {
   const { user } = useAuth();
-
+const [as, c] = useState("Take Loan");
   // State variables to store the input values
   const [amount, setAmount] = useState<string>(""); // To capture the loan amount
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -182,9 +182,10 @@ export const LoanRequest = () => {
                   state: "Debit",
                   profile_id: user?.User_ID,
                 });
+                c("Take Loan 👍");
               }}
             >
-              Take Loan
+              {as}
             </Button>
             {/* Dropdown select */}
             {/* <FormSelect

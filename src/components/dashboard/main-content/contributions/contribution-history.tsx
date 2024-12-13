@@ -9,10 +9,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useAuth } from "@/logi";
+import { useEffect, useState } from "react";
 
 
 export const LoanHistory: React.FC = () => {
   const { user } = useAuth();
+//   const [userr, setUserr] = useState(user);
+
+//   useEffect(() => {
+// setUserr(user)
+//   }, [user])
 console.log(user)
   const statusMessage = {
     success: "Paid",
@@ -30,6 +36,10 @@ console.log(user)
           amount: `₦ ${parseFloat(user?.Transactions[i].amount)}`,
         });
     }
+
+    useEffect(() => {
+
+    }, [user])
 
   // const rows = [
   //   {
@@ -91,7 +101,7 @@ console.log(user)
   return (
     <div>
       <p className="text-[#2C2E3E] font-medium text-[16px] p-5 pb-2 pl-2">
-        Loan History
+        Contribution History
       </p>
       <hr className="mb-2" />
       <Table className="">
