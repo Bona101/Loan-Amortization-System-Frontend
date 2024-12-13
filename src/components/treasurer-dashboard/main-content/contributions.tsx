@@ -49,7 +49,7 @@ export const Contribution: React.FC = () => {
     <div className="m-[40px] flex-grow">
       <p className="font-normal text-[24px]">Welcome back, {user?.Name}!</p>
       <ContributionTable />
-      <div className="mt-[70px] flex justify-between font-Poppins font-medium text-[20px]">
+      {/* <div className="mt-[70px] flex justify-between font-Poppins font-medium text-[20px]">
         <div className="flex flex-col gap-10">
           {infos[0].map((info, i) => (
             <div
@@ -86,7 +86,7 @@ export const Contribution: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -265,7 +265,7 @@ export const TransactionsTable: React.FC = () => {
           </TableRow>
 
           {/* Displaying the Top Contributor and Top Loaner */}
-          <TableRow>
+          {/* <TableRow>
             <TableCell colSpan={2} className="font-semibold text-lg">
               <span className="text-black">Top Contributor: </span>
               <span className="text-green-500">
@@ -299,7 +299,7 @@ export const TransactionsTable: React.FC = () => {
                 }
               </span>
             </TableCell>
-          </TableRow>
+          </TableRow> */}
         </TableBody>
       </Table>
     </div>

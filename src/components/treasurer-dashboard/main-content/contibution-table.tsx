@@ -17,6 +17,7 @@ interface Transaction {
   interest_on_loan: string;
   date: string; // Django date format (e.g., '2024-12-12')
 }
+let aa= 0;
 
 export const ContributionTable: React.FC = () => {
   const { user } = useAuth();
@@ -197,6 +198,8 @@ let prev = 0;
 if (amount < 0){
   return ;
 }
+aa += amount;
+console.log("sus",aa)
   prev = prev + 1;
             const interest_on_loan = parseFloat(
               row.interest_on_loan.replace(/,/g, "")
@@ -266,7 +269,7 @@ if (amount < 0){
           </TableRow>
 
           {/* Displaying the Top Contributor and Top Loaner */}
-          <TableRow>
+          {/* <TableRow>
             <TableCell colSpan={2} className="font-semibold text-lg">
               <span className="text-black">Top Contributor: </span>
               <span className="text-green-500">
@@ -300,7 +303,7 @@ if (amount < 0){
                 }
               </span>
             </TableCell>
-          </TableRow>
+          </TableRow> */}
         </TableBody>
       </Table>
     </div>

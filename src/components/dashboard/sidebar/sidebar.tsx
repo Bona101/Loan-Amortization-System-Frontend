@@ -26,11 +26,11 @@ const Sidebar: React.FC = () => {
     //   title: "Payments",
     //   route: "/sidebar/payments",
     // },
-    {
-      icon: ProfileIcon,
-      title: "My Profile",
-      route: "/sidebar/editprofile",
-    },
+    // {
+    //   icon: ProfileIcon,
+    //   title: "My Profile",
+    //   route: "/sidebar/editprofile",
+    // },
     // {
     //   icon: SettingsIcon,
     //   title: "Settings",

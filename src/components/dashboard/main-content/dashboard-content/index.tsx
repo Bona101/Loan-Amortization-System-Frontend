@@ -90,7 +90,7 @@ const DashboardContent: React.FC = () => {
         {/* <div className="flex gap-[100px]"> */}
         <div className="">
           <BarChart_/>
-          <PieChart_/>
+          {/* <PieChart_/> */}
         </div>
 
         <TransactionHistory />
